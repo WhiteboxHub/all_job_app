@@ -1,0 +1,7 @@
+selenium
+webdriver-manager
+undetected-chromedriver
+pyyaml
+pandas
+fuzzywuzzy
+python-levenshtein

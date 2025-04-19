@@ -1,0 +1,11 @@
+myvenv
+myenv
+venv
+__pycache__
+
+logs/*.csv
+jobs/*.csv
+
+
+
+
