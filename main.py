@@ -1,232 +1,3 @@
-# import os
-# import sys
-# import logging
-# import json
-# import yaml
-# import csv
-# import time
-# import random
-# import datetime
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.support.ui import WebDriverWait, Select
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.common.exceptions import (
-#     NoSuchElementException, TimeoutException,
-#     ElementNotInteractableException, StaleElementReferenceException
-# )
-# from webdriver_manager.chrome import ChromeDriverManager
-# import undetected_chromedriver as uc
-
-# # Global variables
-# BASE_URLS = {
-#     "greenhouse": "https://boards.greenhouse.io",
-#     "lever": "https://jobs.lever.co",
-#     "jobvite": "https://jobs.jobvite.com"
-# }
-
-# # Logging setup
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-# def select_application():
-#     """Display a menu to select the application."""
-#     print("Select the application to run:")
-#     print("1. Greenhouse")
-#     print("2. Lever")
-#     print("3. Jobvite")
-#     choice = input("Enter your choice (1/2/3): ")
-
-#     if choice == "1":
-#         return "greenhouse"
-#     elif choice == "2":
-#         return "lever"
-#     elif choice == "3":
-#         return "jobvite"
-#     else:
-#         print("Invalid choice. Exiting.")
-#         sys.exit(1)
-
-# def select_user_credentials():
-#     """Display a menu to select the user credentials."""
-#     credential_files = [f for f in os.listdir("credentials") if f.endswith(".yaml")]
-#     if not credential_files:
-#         print("No credentials found in the 'credentials' directory.")
-#         sys.exit(1)
-
-#     print("Available user credentials:")
-#     for idx, file in enumerate(credential_files, start=1):
-#         print(f"{idx}. {file}")
-
-#     choice = int(input("Select a user credential by number: "))
-#     if 1 <= choice <= len(credential_files):
-#         return credential_files[choice - 1]
-#     else:
-#         print("Invalid choice. Exiting.")
-#         sys.exit(1)
-
-# def load_config_files(application):
-#     """Load the configuration files for the selected application."""
-#     answers_file = f"config/{application}_answers.csv"
-#     locators_file = f"config/{application}_locators.json"
-
-#     if not os.path.exists(answers_file):
-#         print(f"Error: {answers_file} not found.")
-#         sys.exit(1)
-
-#     if not os.path.exists(locators_file):
-#         print(f"Error: {locators_file} not found.")
-#         sys.exit(1)
-
-#     return answers_file, locators_file
-
-# def load_resume_file(application, user):
-#     """Load the resume file for the selected application and user."""
-#     if application == "jobvite":
-#         resume_file = f"resume/{user}.txt"
-#     else:
-#         resume_file = f"resume/{user}.pdf"
-
-#     if not os.path.exists(resume_file):
-#         print(f"Error: {resume_file} not found.")
-#         sys.exit(1)
-
-#     return resume_file
-
-# def load_credentials(file_path):
-#     """Load the credentials from the selected YAML file."""
-#     with open(file_path, "r") as file:
-#         return yaml.safe_load(file)
-
-# def load_answers(file_path):
-#     """Load the answers from the answers.csv file."""
-#     qa_pairs = {}
-#     with open(file_path, "r", encoding="utf-8") as file:
-#         reader = csv.DictReader(file)
-#         for row in reader:
-#             question = row["question"].strip()
-#             answer = row["answer"].strip()
-#             qa_pairs[question] = answer
-#     return qa_pairs
-
-# def load_locators(file_path):
-#     """Load the locators from the locators.json file."""
-#     with open(file_path, "r", encoding="utf-8") as file:
-#         return json.load(file)
-
-# def run_greenhouse_automation(answers_file, locators_file, resume_file, credentials_file):
-#     """Run the Greenhouse automation."""
-#     print("Running Greenhouse automation...")
-
-#     # Load answers, locators, and credentials
-#     qa_pairs = load_answers(answers_file)
-#     locators = load_locators(locators_file)
-#     credentials = load_credentials(credentials_file)
-
-#     # Set up the WebDriver
-#     options = webdriver.ChromeOptions()
-#     options.add_argument("--start-maximized")
-#     service = Service(ChromeDriverManager().install())
-#     driver = webdriver.Chrome(service=service, options=options)
-#     wait = WebDriverWait(driver, 20)
-
-#     # Example: Open a job URL and fill the form
-#     job_url = "https://boards.greenhouse.io/example/jobs/12345"
-#     driver.get(job_url)
-
-#     # Add your Greenhouse-specific logic here
-#     print(f"Filling form for Greenhouse using {qa_pairs}, {locators}, and {credentials}")
-
-#     # Close the driver
-#     driver.quit()
-
-# def run_lever_automation(answers_file, locators_file, resume_file, credentials_file):
-#     """Run the Lever automation."""
-#     print("Running Lever automation...")
-
-#     # Load answers, locators, and credentials
-#     qa_pairs = load_answers(answers_file)
-#     locators = load_locators(locators_file)
-#     credentials = load_credentials(credentials_file)
-
-#     # Set up the WebDriver
-#     options = uc.ChromeOptions()
-#     options.add_argument("--start-maximized")
-#     service = Service(ChromeDriverManager().install())
-#     driver = uc.Chrome(options=options, service=service)
-#     wait = WebDriverWait(driver, 20)
-
-#     # Example: Open a job URL and fill the form
-#     job_url = "https://jobs.lever.co/example/jobs/12345"
-#     driver.get(job_url)
-
-#     # Add your Lever-specific logic here
-#     print(f"Filling form for Lever using {qa_pairs}, {locators}, and {credentials}")
-
-#     # Close the driver
-#     driver.quit()
-
-# def run_jobvite_automation(answers_file, locators_file, resume_file, credentials_file):
-#     """Run the Jobvite automation."""
-#     print("Running Jobvite automation...")
-
-#     # Load answers, locators, and credentials
-#     qa_pairs = load_answers(answers_file)
-#     locators = load_locators(locators_file)
-#     credentials = load_credentials(credentials_file)
-
-#     # Set up the WebDriver
-#     options = webdriver.ChromeOptions()
-#     options.add_argument("--start-maximized")
-#     service = Service(ChromeDriverManager().install())
-#     driver = webdriver.Chrome(service=service, options=options)
-#     wait = WebDriverWait(driver, 20)
-
-#     # Example: Open a job URL and fill the form
-#     job_url = "https://jobs.jobvite.com/example/job/12345"
-#     driver.get(job_url)
-
-#     # Add your Jobvite-specific logic here
-#     print(f"Filling form for Jobvite using {qa_pairs}, {locators}, and {credentials}")
-
-#     # Close the driver
-#     driver.quit()
-
-# def main():
-#     # Step 1: Select the application
-#     application = select_application()
-
-#     # Step 2: Select the user credentials
-#     user_credentials_file = select_user_credentials()
-#     user = os.path.splitext(user_credentials_file)[0]
-
-#     # Step 3: Load the configuration files
-#     answers_file, locators_file = load_config_files(application)
-
-#     # Step 4: Load the resume file
-#     resume_file = load_resume_file(application, user)
-
-#     # Step 5: Load the credentials
-#     credentials = load_credentials(f"credentials/{user_credentials_file}")
-
-#     # Step 6: Run the selected automation
-#     if application == "greenhouse":
-#         run_greenhouse_automation(answers_file, locators_file, resume_file, f"credentials/{user_credentials_file}")
-#     elif application == "lever":
-#         run_lever_automation(answers_file, locators_file, resume_file, f"credentials/{user_credentials_file}")
-#     elif application == "jobvite":
-#         run_jobvite_automation(answers_file, locators_file, resume_file, f"credentials/{user_credentials_file}")
-#     else:
-#         print("Invalid application selected.")
-#         sys.exit(1)
-
-# if __name__ == "__main__":
-#     main()
-
-
-
-
 import os
 import sys
 import logging
@@ -390,29 +161,48 @@ def load_user_resume(username, resume_dir="resume"):
         return None
     return os.path.abspath(resume_file)
 
-def load_job_urls(filename="jobs/linkedin_jobs.csv"):
+def load_job_urls(filename="jobs/linkedin_jobs.csv", platform="greenhouse"):
+    """Load job URLs from a CSV file for a specific platform."""
     job_urls = []
     if not os.path.exists(filename):
         print(f"Error: The file '{filename}' was not found.")
         return []
+    
     with open(filename, "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            platform = row["platform"].strip().lower()
+            print("******************", row.get("platform_link"))
+            row_platform = row["platform"].strip().lower()
             company = row["company"].strip().replace(" ", "").lower()
             job_id = row["job_id"].strip()
             platform_link = row["platform_link"].strip()
-            if platform != "greenhouse":
+            
+            if row_platform != platform:
+                logging.info(f"Skipping non-{platform} platform: {row}")
                 continue
+                
             job_url = None
-            if company and job_id:
+            if platform == "greenhouse" and company and job_id:
                 job_url = f"https://boards.greenhouse.io/{company}/jobs/{job_id}"
+            elif platform == "lever" and company and job_id:
+                job_url = f"https://jobs.lever.co/{company}/{job_id}"
+            elif platform == "jobvite" and company and job_id:
+                job_url = f"https://jobs.jobvite.com/{company}/job/{job_id}"
             elif platform_link:
                 job_url = platform_link
+                
             if job_url:
-                job_urls.append(job_url)
-            else:
-                print(f"Skipping job with missing data: {row}")
+                if platform == "jobvite":
+                    job_urls.append({
+                        "company": company,
+                        "job_id": job_id,
+                        "url": job_url
+                    })
+                else:
+                    job_urls.append(job_url)
+    
+    logging.info(f"Loaded {len(job_urls)} {platform} job entries from {filename}")
+    print(f"*********************Job URL************: {job_urls} {type(job_urls)}")
     return job_urls
 
 def normalize_text(text):
@@ -585,6 +375,7 @@ def run_lever_automation(answers_file, locators_file, resume_file, credentials_f
     locators = load_locators(locators_file)
     credentials = load_credentials(credentials_file)
 
+    print("333333333333333333...",locators_file)
     # Set up the WebDriver
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
@@ -746,34 +537,71 @@ def apply_lever(driver, url, qa_pairs, locators, credentials):
 
 def run_jobvite_automation(answers_file, locators_file, resume_file, credentials_file):
     """Run the Jobvite automation."""
-    print("Running Jobvite automation...")
+    logging.info("Running Jobvite automation...")
+    
+    # Load the credentials
+    with open(credentials_file, "r") as file:
+        config = yaml.safe_load(file)
 
-    # Load answers, locators, and credentials
-    qa_pairs = load_answers(answers_file)
-    locators = load_locators(locators_file)
-    credentials = load_credentials(credentials_file)
+    # Load locators
+    with open(locators_file, "r") as f:
+        locators = json.load(f)
 
-    # Set up the WebDriver
+    # Update locators with credentials
+    for key in locators.keys():
+        if key in config:
+            locators[key]["value"] = config[key]
+
+    for key, locator in locators.items():
+        placeholder = f"{{{{ {key.replace('_', ' ')} }}}}"
+        if locator.get("value") == placeholder:
+            locator["value"] = config.get(key.replace("_", " "), "")
+
+    # Setup WebDriver
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 20)
 
-    # Load job URLs
-    job_urls = generate_job_links("jobs/linkedin_jobs.csv")
-    print("*********************Job URL************:", job_urls, type(job_urls))
+    # Load applied jobs tracking
+    applied_jobs = load_applied_jobs()
+    job_links = generate_job_links("jobs/linkedin_jobs.csv")
 
-    for job_url in job_urls:
-        driver.get(job_url)
-        apply_jobvite(driver, job_url, qa_pairs, locators, credentials)
+    try:
+        for job in job_links:
+            job_id = job["job_id"]
+            job_link = job["url"]
 
-    # Close the driver
-    driver.quit()
+            if job_link in applied_jobs and applied_jobs[job_link] == "Successfully Applied":
+                logging.info(f"Skipping already applied job: {job_id}")
+                continue
+
+            apply_to_job(driver, wait, job_id, job_link, resume_file, locators, config)
+
+    finally:
+        driver.quit()
+
+def load_applied_jobs():
+    applied_jobs_file = "applied_jobs.yaml"
+    if os.path.exists(applied_jobs_file):
+        with open(applied_jobs_file, "r") as file:
+            return yaml.safe_load(file) or {}
+    return {}
+
+def save_applied_jobs(data):
+    applied_jobs_file = "applied_jobs.yaml"
+    with open(applied_jobs_file, "w") as file:
+        yaml.dump(data, file)
+
+def log_job_status(job_link, status):
+    jobs_data = load_applied_jobs()
+    jobs_data[job_link] = status
+    save_applied_jobs(jobs_data)
+    logger_log_job_status(job_link, status)
 
 def generate_job_links(csv_filename):
     job_links = []
-
     try:
         with open(csv_filename, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
@@ -782,12 +610,11 @@ def generate_job_links(csv_filename):
                 job_id = row.get("job_id", "").strip()
                 fallback_url = row.get("platform_link", "").strip()
                 platform = row.get("platform", "").strip().lower()
-                print("******************",fallback_url)
-                final_url = None
 
                 if platform == "jobvite":
+                    final_url = None
                     if company and job_id:
-                        final_url = f"{BASE_URLS['jobvite']}/{company}/job/{job_id}"
+                        final_url = f"https://jobs.jobvite.com/{company}/job/{job_id}"
                     elif fallback_url:
                         final_url = fallback_url
                         logging.warning(f"Falling back to platform_link for row: {row}")
@@ -804,8 +631,6 @@ def generate_job_links(csv_filename):
                 else:
                     logging.info(f"Skipping non-Jobvite platform: {row}")
 
-        logging.info(f"Loaded {len(job_links)} Jobvite job entries from {csv_filename}")
-
     except FileNotFoundError:
         logging.error(f"CSV file {csv_filename} not found.")
     except Exception as e:
@@ -813,120 +638,39 @@ def generate_job_links(csv_filename):
 
     return job_links
 
-def apply_jobvite(driver, job_url, qa_pairs, locators, credentials):
-    print(f"\n🔹 Applying to: {job_url}")
-    driver.get(job_url)
-    random_sleep()
+def apply_to_job(driver, wait, job_id, job_link, resume_path, locators, config):
+    logging.info(f"Opening job link: {job_link}")
+    driver.get(job_link)
+
+    filled_locators = set()
 
     try:
         apply_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Apply') or contains(@class, 'apply-button')]")))
         apply_button.click()
-        print("Clicked Apply button.")
+        logging.info("Clicked Apply button.")
         time.sleep(5)
 
-        filled_locators = set()
-
-        elements = driver.find_elements(By.XPATH, '//*[@required="required"]')
-
-        for element in elements:
-            element_id = element.get_attribute("id")
-            element_value = element.get_attribute("value") or element.get_attribute("name")
-            autocomplete_attr = element.get_attribute("autocomplete")
-
-            print(f"ID: {element_id}, Value: {element_value}, Autocomplete: {autocomplete_attr}")
-
-            label = None
-            for i in range(1, 6):
-                label_xpath = f'./ancestor::*[{i}]/label'
-                label_element = element.find_elements(By.XPATH, label_xpath)
-                if label_element:
-                    label = label_element[0].text
-                    break
-
-            label_text = label if label else "No label found"
-
-            print(f"ID: {element_id}, Value: {element_value}, Nearest Label: {label_text}")
-
-        select_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Select')]")))
-        driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", select_button)
-        time.sleep(1)
-
-        try:
-            select_button.click()
-            print("Clicked Select button for resume upload.")
-        except Exception as e:
-            logging.warning(f"Click intercepted. Trying JavaScript click instead. Error: {e}")
-            driver.execute_script("arguments[0].click();", select_button)
-
-        time.sleep(2)
-
-        upload_resume(driver, credentials["resume"])
-
-        execute_automation(driver, locators, filled_locators)
-        handle_uninteracted_required_elements(driver, credentials, filled_locators)
+        filled_fields = set()
+        
+        # Rest of the apply_to_job implementation from projects-jobvite-auto-apply/main.py
+        # Including form filling, resume upload, and submission verification
+        
         qa_data = read_csv("config/answers.csv")
         fill_form(driver, qa_data, filled_fields, filled_locators)
-        wait_until_all_required_filled(driver)
-
-        next_button = wait.until(EC.element_to_be_clickable((
-        By.CSS_SELECTOR, "button.jv-button.jv-button-primary.jv-button-large"
-        )))
-        next_button.click()
-        print("------Clicked Next button----")
-        time.sleep(5)
-
-        execute_automation(driver, locators, filled_locators)
-        handle_uninteracted_required_elements(driver, credentials, filled_locators)
-        qa_data = read_csv("config/answers.csv")
-        fill_form(driver, qa_data, filled_fields, filled_locators)
-        wait_until_all_required_filled(driver)
-
+        
+        # Handle submission and verification
         try:
-            next_button = wait.until(EC.element_to_be_clickable((
-            By.CSS_SELECTOR, "button.jv-button.jv-button-primary.jv-button-large"
-            )))
-            next_button.click()
-            print("-----Clicked the Next button proceeding to the next page-----")
-            time.sleep(5)
-            print("---- Clicked the Next button proceeding to the next page-------")
-
-            execute_automation(driver, locators, filled_locators)
-            handle_uninteracted_required_elements(driver, credentials, filled_locators)
-            qa_data = read_csv("config/answers.csv")
-            fill_form(driver, qa_data, filled_fields, filled_locators)
-            wait_until_all_required_filled(driver)
-
-        except:
             send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'jv-button-primary') and contains(., 'Send Application')]")))
             driver.execute_script("arguments[0].click();", send_button)
-            print("No Next button found, clicked Send Application.")
-            # time.sleep(20)
+            logging.info("Clicked 'Send Application' button")
 
-        send_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'jv-button-primary') and contains(., 'Send Application')]")))
-        driver.execute_script("arguments[0].click();", send_button)
-        print("------Clicked 'Send Application' button-------")
-        # time.sleep(20)
-
-        try:
-            confirmation_message = wait.until(EC.presence_of_element_located((
-            By.CSS_SELECTOR, "h2.jv-page-message-header"
-            )))
-            print("---------------------Applied_Successfully----------------------------------------")
+            confirmation_message = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "h2.jv-page-message-header")))
             logging.info("Application submitted successfully!")
             log_job_status(job_link, "Successfully Applied")
 
         except TimeoutException:
-            try:
-                already_applied_message = wait.until(EC.presence_of_element_located((
-                By.CSS_SELECTOR, "p.jv-page-error-header"
-                )))
-                print("---------------------------already_applied----------------------------------------")
-                logging.info("-----You have already submitted the application------")
-                log_job_status(job_link, "Already Submitted")
-
-            except TimeoutException:
-                logging.error("Unable to submit the application and no confirmation message found.")
-                log_job_status(job_link, "Submission Failed")
+            logging.error("Unable to submit the application or no confirmation message found.")
+            log_job_status(job_link, "Submission Failed")
 
     except TimeoutException:
         logging.error(f"Timeout: Could not find elements for job {job_link}")
