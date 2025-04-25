@@ -389,6 +389,18 @@ def run_greenhouse(config, locators, credentials, jobs, resume):
 def run_jobvite(config, locators, credentials, jobs, resume):
     logging.info("Running Jobvite application...")
 
+    # Initialize constants and variables
+    applied_jobs_file = "applied_jobs.yaml"
+    job_csv_file = "jobs/linkedin_jobs.csv"
+    csv_file = "config/jobvite_answers.csv"
+    BASE_URL = "https://jobs.jobvite.com"
+
+    # Print credntials directly
+    logging.info("========== CREDENTIALS (YAML) VALUES ==========")
+    for key, value in credentials.items():
+        logging.info(f"Credentials: '{key}' = '{value}'")
+    logging.info("==============================================")
+
     def get_logger():
         log_dir = "logs"
         os.makedirs(log_dir, exist_ok=True)
@@ -701,8 +713,48 @@ def run_jobvite(config, locators, credentials, jobs, resume):
         driver.get(job_link)
 
         filled_locators = set()
+        filled_fields = set()
+
+        # Convert config values to strings to avoid pandas Series issues
+        string_config = {}
+        for key, value in config.items():
+            # Check if value is a pandas Series (which causes truth value ambiguity)
+            if hasattr(value, "tolist") and callable(getattr(value, "tolist")):
+                try:
+                    # Convert Series to list then first item to string
+                    value_list = value.tolist()
+                    if value_list and len(value_list) > 0:
+                        string_config[key] = str(value_list[0])
+                except:
+                    string_config[key] = str(value)
+            else:
+                string_config[key] = str(value) if value is not None else ""
+
+        # Use the string_config instead of original config for remaining operations
+        config = string_config
+
+        # Print out all the config key-value pairs for debugging
+        logging.info("========== CONFIG VALUES ==========")
+        for key, value in config.items():
+            logging.info(f"Config: '{key}' = '{value}'")
+        logging.info("===================================")
+
+        # Also print to stdout for better visibility
+        print("\n========== JOBVITE CONFIG VALUES ==========")
+        print(f"First name: '{config.get('first name', 'NOT FOUND')}'")
+        print(f"Last name: '{config.get('last name', 'NOT FOUND')}'")
+        print(f"Email: '{config.get('email', 'NOT FOUND')}'")
+        print(f"Phone: '{config.get('phone', 'NOT FOUND')}'")
+        print(f"Address: '{config.get('address', 'NOT FOUND')}'")
+        print(f"City: '{config.get('city', 'NOT FOUND')}'")
+        print(f"State: '{config.get('state', 'NOT FOUND')}'")
+        print(f"Zip: '{config.get('zip', 'NOT FOUND')}'")
+        print(f"Country: '{config.get('country', 'NOT FOUND')}'")
+        print(f"Job Posting: '{config.get('job posting', 'NOT FOUND')}'")
+        print("============================================\n")
 
         try:
+            # Click the apply button to start the application
             apply_button = wait.until(
                 EC.element_to_be_clickable(
                     (
@@ -715,10 +767,8 @@ def run_jobvite(config, locators, credentials, jobs, resume):
             logging.info("Clicked Apply button.")
             time.sleep(5)
 
-            filled_fields = set()
-
+            # Identify all required form fields for logging purposes
             elements = driver.find_elements(By.XPATH, '//*[@required="required"]')
-
             for element in elements:
                 element_id = element.get_attribute("id")
                 element_value = element.get_attribute("value") or element.get_attribute(
@@ -739,58 +789,638 @@ def run_jobvite(config, locators, credentials, jobs, resume):
                         break
 
                 label_text = label if label else "No label found"
-
                 print(
                     f"ID: {element_id}, Value: {element_value}, Nearest Label: {label_text}"
                 )
 
-            select_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[contains(text(), 'Select')]")
-                )
-            )
-            driver.execute_script(
-                "arguments[0].scrollIntoView({block: 'center'});", select_button
-            )
-            time.sleep(1)
+            # ----- UPLOAD RESUME FIRST -----
 
+            logging.info("Looking for resume upload button...")
             try:
-                select_button.click()
-                logging.info("Clicked Select button for resume upload.")
-            except Exception as e:
-                logging.warning(
-                    f"Click intercepted. Trying JavaScript click instead. Error: {e}"
-                )
-                driver.execute_script("arguments[0].click();", select_button)
-
-            time.sleep(2)
-
-            upload_resume(driver, resume_path)
-
-            execute_automation(driver, locators, filled_locators)
-            handle_uninteracted_required_elements(driver, config, filled_locators)
-            qa_data = read_csv(csv_file)
-            fill_form(driver, qa_data, filled_fields, filled_locators)
-            wait_until_all_required_filled(driver)
-
-            next_button = wait.until(
-                EC.element_to_be_clickable(
-                    (
-                        By.CSS_SELECTOR,
-                        "button.jv-button.jv-button-primary.jv-button-large",
+                # First try to find and click the resume upload select button
+                try:
+                    select_button = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable(
+                            (By.XPATH, "//button[contains(text(), 'Select')]")
+                        )
                     )
-                )
-            )
-            next_button.click()
-            logging.info("------Clicked Next button----")
-            time.sleep(5)
+                    driver.execute_script(
+                        "arguments[0].scrollIntoView({block: 'center'});", select_button
+                    )
+                    time.sleep(1)
+                    select_button.click()
+                    logging.info("Clicked Select button for resume upload.")
+                except Exception as e:
+                    logging.warning(
+                        f"Could not find 'Select' button, trying alternative methods: {e}"
+                    )
+                    try:
+                        # Try alternative resume upload button
+                        upload_btn = WebDriverWait(driver, 5).until(
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    "//button[contains(@class, 'resume') and contains(@class, 'upload')]",
+                                )
+                            )
+                        )
+                        upload_btn.click()
+                        logging.info("Clicked alternative resume upload button")
+                    except:
+                        # Try to find file input directly
+                        logging.info("Trying to find file input element directly")
+                        file_inputs = driver.find_elements(
+                            By.XPATH, "//input[@type='file']"
+                        )
+                        if file_inputs:
+                            driver.execute_script(
+                                "arguments[0].style.display = 'block';", file_inputs[0]
+                            )
+                            file_inputs[0].send_keys(resume_path)
+                            logging.info(
+                                f"Directly uploaded resume to file input: {resume_path}"
+                            )
 
-            execute_automation(driver, locators, filled_locators)
-            handle_uninteracted_required_elements(driver, config, filled_locators)
+                # Upload the resume using the function
+                time.sleep(2)
+                upload_resume(driver, resume_path)
+                logging.info(f"Uploaded resume: {resume_path}")
+                time.sleep(5)  # Wait longer for resume to process
+
+                # ----- VERIFY AND RE-FILL FIELDS AFTER RESUME UPLOAD -----
+                logging.info(
+                    "VERIFYING fields after resume upload (resume may have overwritten them)"
+                )
+
+                # Re-apply force fill to make sure resume didn't override our values
+                for label_text, value in force_fields.items():
+                    if not value:
+                        continue
+
+                    logging.info(f"Verifying '{label_text}' still has value '{value}'")
+
+                    # Try multiple approaches to find the field
+                    found = False
+
+                    # 1. Try by exact label text
+                    try:
+                        # First try exact label match
+                        label_xpath = f"//label[text()='{label_text}' or text()='{label_text}*' or contains(text(), '{label_text}')]"
+                        labels = driver.find_elements(By.XPATH, label_xpath)
+
+                        if labels:
+                            for label in labels:
+                                try:
+                                    # Try by 'for' attribute (most reliable)
+                                    if label.get_attribute("for"):
+                                        input_id = label.get_attribute("for")
+                                        input_element = driver.find_element(
+                                            By.ID, input_id
+                                        )
+
+                                        # Check if current value matches our config
+                                        current_value = input_element.get_attribute(
+                                            "value"
+                                        )
+                                        if (
+                                            input_element.tag_name != "select"
+                                            and current_value != value
+                                        ):
+                                            logging.info(
+                                                f"⚠️ Field '{label_text}' was changed by resume to '{current_value}', restoring to '{value}'"
+                                            )
+                                            input_element.clear()
+                                            input_element.send_keys(value)
+                                            logging.info(
+                                                f"✓ Re-filled '{label_text}' with '{value}'"
+                                            )
+
+                                        found = True
+                                        break
+                                    else:
+                                        # Try finding nearest input
+                                        input_xpath = "following::*[self::input or self::textarea or self::select][1]"
+                                        input_elements = label.find_elements(
+                                            By.XPATH, input_xpath
+                                        )
+
+                                        if input_elements:
+                                            input_element = input_elements[0]
+
+                                            # Check if current value matches our config
+                                            current_value = input_element.get_attribute(
+                                                "value"
+                                            )
+                                            if (
+                                                input_element.tag_name != "select"
+                                                and current_value != value
+                                            ):
+                                                logging.info(
+                                                    f"⚠️ Field '{label_text}' was changed by resume to '{current_value}', restoring to '{value}'"
+                                                )
+                                                input_element.clear()
+                                                input_element.send_keys(value)
+                                                logging.info(
+                                                    f"✓ Re-filled '{label_text}' with '{value}'"
+                                                )
+
+                                            found = True
+                                            break
+                                except Exception as e:
+                                    logging.debug(f"Error verifying {label_text}: {e}")
+                                    continue
+                    except Exception as e:
+                        logging.debug(f"Error with label verification: {e}")
+
+                    # 2. If not found by label, try by placeholder, name, or id
+                    if not found:
+                        # Remove spaces and convert to lowercase for matching
+                        field_match = (
+                            label_text.lower().replace(" ", "").replace("/", "")
+                        )
+                        try:
+                            # Try various attributes
+                            for attr in ["placeholder", "name", "id", "aria-label"]:
+                                xpath = f"//*[@{attr} and contains(translate(@{attr}, ' /ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '{field_match.lower()}')]"
+                                elements = driver.find_elements(By.XPATH, xpath)
+
+                                if elements:
+                                    for element in elements:
+                                        if (
+                                            element.is_displayed()
+                                            and element.is_enabled()
+                                        ):
+                                            # Check if current value matches our config
+                                            current_value = element.get_attribute(
+                                                "value"
+                                            )
+                                            if (
+                                                element.tag_name != "select"
+                                                and current_value != value
+                                            ):
+                                                logging.info(
+                                                    f"⚠️ Field '{label_text}' was changed by resume to '{current_value}', restoring to '{value}'"
+                                                )
+                                                element.clear()
+                                                element.send_keys(value)
+                                                logging.info(
+                                                    f"✓ Re-filled '{label_text}' with '{value}'"
+                                                )
+
+                                            found = True
+                                            break
+
+                            if found:
+                                break
+                        except Exception as e:
+                            logging.debug(f"Error with attribute verification: {e}")
+
+            except Exception as e:
+                logging.error(f"Failed to upload resume: {e}")
+
+            # ----- NOW FILL FORM FIELDS FROM CONFIG AND LOCATORS -----
+
+            # Load question-answer data from CSV
             qa_data = read_csv(csv_file)
+
+            logging.info("Filling form fields from config and locators")
+
+            # FORCE FILL specific fields identified in the example with YAML values
+            # This ensures these exact fields are filled from YAML no matter what
+            force_fields = {
+                "First Name": credentials.get(
+                    "first name", ""
+                ),  # Get directly from credentials
+                "First": credentials.get(
+                    "first name", ""
+                ),  # Get directly from credentials
+                "Last Name": credentials.get(
+                    "last name", ""
+                ),  # Get directly from credentials
+                "Last/Surname Name": credentials.get(
+                    "last name", ""
+                ),  # Get directly from credentials
+                "Last": credentials.get(
+                    "last name", ""
+                ),  # Get directly from credentials
+                "Email": credentials.get("email", ""),  # Get directly from credentials
+                "Address": credentials.get(
+                    "address", ""
+                ),  # Get directly from credentials
+                "City": credentials.get("city", ""),  # Get directly from credentials
+                "State": credentials.get("state", ""),  # Get directly from credentials
+                "Zip": credentials.get("zip", ""),  # Get directly from credentials
+                "Country": credentials.get(
+                    "country", ""
+                ),  # Get directly from credentials
+                "Phone": credentials.get("phone", ""),  # Get directly from credentials
+                "How did you hear about this Job": credentials.get(
+                    "job posting", "LinkedIn Job Posting"
+                ),
+                "How did you hear about this job": credentials.get(
+                    "job posting", "LinkedIn Job Posting"
+                ),
+                "Preferred First Name": credentials.get(
+                    "your name", credentials.get("first name", "")
+                ),
+                "Gender": credentials.get("gender", ""),
+                "Pronouns": credentials.get("pronouns", ""),
+                "Work Status": credentials.get("work status", ""),
+                "Work Authorization": credentials.get("work authorization", ""),
+            }
+
+            # Also print the force fields for debugging
+            print("\n========== FORCE FIELDS VALUES (FROM CREDENTIALS) ==========")
+            for field, value in force_fields.items():
+                if value:  # Only print non-empty values
+                    print(f"{field}: '{value}'")
+            print("=====================================================\n")
+
+            # Force fill these fields by finding exact label matches and filling them
+            logging.info("FORCE FILLING fields from YAML config")
+            for label_text, value in force_fields.items():
+                if not value:
+                    continue
+
+                logging.info(f"Force filling '{label_text}' with '{value}'")
+
+                # Try multiple approaches to find the field
+                found = False
+
+                # 1. Try by exact label text
+                try:
+                    # First try exact label match
+                    label_xpath = f"//label[text()='{label_text}' or text()='{label_text}*' or contains(text(), '{label_text}')]"
+                    labels = driver.find_elements(By.XPATH, label_xpath)
+
+                    if labels:
+                        for label in labels:
+                            try:
+                                # Try by 'for' attribute (most reliable)
+                                if label.get_attribute("for"):
+                                    input_id = label.get_attribute("for")
+                                    input_element = driver.find_element(By.ID, input_id)
+
+                                    if input_element.tag_name == "select":
+                                        select = Select(input_element)
+                                        try:
+                                            select.select_by_visible_text(value)
+                                            logging.info(
+                                                f"✓ Force filled '{label_text}' with '{value}' by label.for"
+                                            )
+                                            found = True
+                                            break
+                                        except:
+                                            continue
+                                    else:
+                                        # Always clear and enter value to override
+                                        input_element.clear()
+                                        input_element.send_keys(value)
+                                        logging.info(
+                                            f"✓ Force filled '{label_text}' with '{value}' by label.for"
+                                        )
+                                        found = True
+                                        break
+                                else:
+                                    # Try finding nearest input
+                                    input_xpath = "following::*[self::input or self::textarea or self::select][1]"
+                                    input_elements = label.find_elements(
+                                        By.XPATH, input_xpath
+                                    )
+
+                                    if input_elements:
+                                        input_element = input_elements[0]
+                                        if input_element.tag_name == "select":
+                                            select = Select(input_element)
+                                            try:
+                                                select.select_by_visible_text(value)
+                                                logging.info(
+                                                    f"✓ Force filled '{label_text}' with '{value}' by following::"
+                                                )
+                                                found = True
+                                                break
+                                            except:
+                                                continue
+                                        else:
+                                            # Always clear and enter value to override
+                                            input_element.clear()
+                                            input_element.send_keys(value)
+                                            logging.info(
+                                                f"✓ Force filled '{label_text}' with '{value}' by following::"
+                                            )
+                                            found = True
+                                            break
+                            except Exception as e:
+                                logging.debug(f"Error forcing {label_text}: {e}")
+                                continue
+                except Exception as e:
+                    logging.debug(f"Error with label search: {e}")
+
+                # 2. If not found, try by placeholder, name, or id that contains the field name
+                if not found:
+                    # Remove spaces and convert to lowercase for matching
+                    field_match = label_text.lower().replace(" ", "").replace("/", "")
+                    try:
+                        # Try various attributes
+                        for attr in ["placeholder", "name", "id", "aria-label"]:
+                            xpath = f"//*[@{attr} and contains(translate(@{attr}, ' /ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '{field_match.lower()}')]"
+                            elements = driver.find_elements(By.XPATH, xpath)
+
+                            if elements:
+                                for element in elements:
+                                    if element.is_displayed() and element.is_enabled():
+                                        if element.tag_name == "select":
+                                            select = Select(element)
+                                            try:
+                                                select.select_by_visible_text(value)
+                                                logging.info(
+                                                    f"✓ Force filled '{label_text}' with '{value}' by {attr}"
+                                                )
+                                                found = True
+                                                break
+                                            except:
+                                                continue
+                                        else:
+                                            # Always clear and enter value to override
+                                            element.clear()
+                                            element.send_keys(value)
+                                            logging.info(
+                                                f"✓ Force filled '{label_text}' with '{value}' by {attr}"
+                                            )
+                                            found = True
+                                            break
+
+                            if found:
+                                break
+                    except Exception as e:
+                        logging.debug(f"Error with attribute search: {e}")
+
+            # Now continue with the regular filling approaches
+            # 1. First try to fill common form fields directly by ID or name
+            logging.info("Direct approach - filling fields by ID/attribute mappings")
+            field_mappings = {
+                "first_name": ["first", "firstname", "fname", "given-name"],
+                "last_name": ["last", "lastname", "lname", "family-name"],
+                "email": ["email", "emailaddress"],
+                "phone": ["phone", "phonenumber", "tel"],
+                "address": ["address", "streetaddress", "street", "address-line1"],
+                "city": ["city", "cityname", "address-level2"],
+                "state": ["state", "stateprovince", "address-level1"],
+                "zip": ["zip", "zipcode", "postalcode", "postal", "postal-code"],
+                "country": ["country", "countryname", "country-name"],
+            }
+
+            # Look for these fields and fill them
+            for config_key, search_terms in field_mappings.items():
+                if config_key in config and config[config_key]:
+                    value = config[config_key]
+                    # Try each possible match for the field
+                    for term in search_terms:
+                        try:
+                            # Try different attribute selectors
+                            for attr in ["id", "name", "placeholder", "autocomplete"]:
+                                xpath = f"//*[contains(@{attr}, '{term}')]"
+                                elements = driver.find_elements(By.XPATH, xpath)
+
+                                if elements:
+                                    for element in elements:
+                                        try:
+                                            if (
+                                                element.is_displayed()
+                                                and element.is_enabled()
+                                            ):
+                                                tag_name = element.tag_name.lower()
+                                                if tag_name == "select":
+                                                    select = Select(element)
+                                                    try:
+                                                        select.select_by_visible_text(
+                                                            value
+                                                        )
+                                                        logging.info(
+                                                            f"Filled {config_key} with '{value}' (select)"
+                                                        )
+                                                        filled_fields.add(config_key)
+                                                        break
+                                                    except:
+                                                        # Try first option that's not empty
+                                                        for option in select.options:
+                                                            if option.text.strip() and option.text.strip().lower() not in [
+                                                                "select",
+                                                                "choose",
+                                                            ]:
+                                                                select.select_by_visible_text(
+                                                                    option.text
+                                                                )
+                                                                logging.info(
+                                                                    f"Filled {config_key} with fallback option '{option.text}'"
+                                                                )
+                                                                filled_fields.add(
+                                                                    config_key
+                                                                )
+                                                                break
+                                                else:
+                                                    element.clear()
+                                                    element.send_keys(value)
+                                                    logging.info(
+                                                        f"Filled {config_key} with '{value}'"
+                                                    )
+                                                    filled_fields.add(config_key)
+                                                    break
+                                        except:
+                                            continue
+
+                                if config_key in filled_fields:
+                                    break
+                        except Exception as e:
+                            logging.debug(f"Error filling {config_key}: {e}")
+
+                        if config_key in filled_fields:
+                            break
+
+            # 2. Fill using label text to find fields
+            logging.info("Filling fields by finding labels")
+            for key, value in config.items():
+                # Skip empty values or if field already filled
+                if not value or key in filled_fields:
+                    continue
+
+                # Try to find field by label text (exact match first, then contains)
+                for match_type in ["equals", "contains"]:
+                    try:
+                        label_xpath = (
+                            f"//label[text()='{key}']"
+                            if match_type == "equals"
+                            else f"//label[contains(text(), '{key}')]"
+                        )
+                        labels = driver.find_elements(By.XPATH, label_xpath)
+
+                        for label in labels:
+                            try:
+                                # Try to find the input near this label
+                                input_element = None
+
+                                # Try by for attribute
+                                if label.get_attribute("for"):
+                                    input_id = label.get_attribute("for")
+                                    input_element = driver.find_element(By.ID, input_id)
+                                else:
+                                    # Try finding nearest input
+                                    input_element = label.find_element(
+                                        By.XPATH,
+                                        "following::*[self::input or self::textarea or self::select][1]",
+                                    )
+
+                                if (
+                                    input_element
+                                    and input_element.is_displayed()
+                                    and input_element.is_enabled()
+                                ):
+                                    if input_element.tag_name == "select":
+                                        select = Select(input_element)
+                                        try:
+                                            select.select_by_visible_text(value)
+                                        except:
+                                            # Try finding closest option
+                                            for option in select.options:
+                                                if (
+                                                    option.text.strip()
+                                                    and option.text.strip().lower()
+                                                    != "select"
+                                                ):
+                                                    select.select_by_visible_text(
+                                                        option.text
+                                                    )
+                                                    break
+                                    else:
+                                        input_element.clear()
+                                        input_element.send_keys(value)
+
+                                    logging.info(
+                                        f"Filled field '{key}' with value '{value}' by label"
+                                    )
+                                    filled_fields.add(key)
+                                    break
+                            except Exception as e:
+                                logging.debug(f"Error with label '{key}': {e}")
+                                continue
+
+                        if key in filled_fields:
+                            break
+                    except Exception as e:
+                        logging.debug(f"Could not fill field '{key}' by label: {e}")
+
+                # If field still not filled, try common variations of the key
+                if key not in filled_fields:
+                    variations = [
+                        key,
+                        key.replace("_", " "),
+                        key.replace("_", "-"),
+                        key.title(),
+                        key.upper(),
+                    ]
+
+                    for var in variations:
+                        try:
+                            xpath = f"//label[contains(text(), '{var}')]"
+                            labels = driver.find_elements(By.XPATH, xpath)
+                            if labels:
+                                for label in labels:
+                                    # Similar process as above
+                                    try:
+                                        input_xpath = "following::*[self::input or self::textarea or self::select][1]"
+                                        input_element = label.find_element(
+                                            By.XPATH, input_xpath
+                                        )
+
+                                        if (
+                                            input_element.is_displayed()
+                                            and input_element.is_enabled()
+                                        ):
+                                            if input_element.tag_name == "select":
+                                                select = Select(input_element)
+                                                try:
+                                                    select.select_by_visible_text(value)
+                                                except:
+                                                    continue
+                                            else:
+                                                input_element.clear()
+                                                input_element.send_keys(value)
+
+                                            logging.info(
+                                                f"Filled field '{key}' with '{value}' using variation '{var}'"
+                                            )
+                                            filled_fields.add(key)
+                                            break
+                                    except:
+                                        continue
+                        except:
+                            continue
+
+                        if key in filled_fields:
+                            break
+
+            # 3. Fill the How did you hear dropdown
+            logging.info("Handling the 'How did you hear about this job' dropdown")
+            try:
+                hear_about_xpath = "//label[contains(text(), 'hear') or contains(text(), 'How did you')]"
+                labels = driver.find_elements(By.XPATH, hear_about_xpath)
+
+                if labels:
+                    for label in labels:
+                        try:
+                            input_xpath = "following::select[1]"
+                            select_element = label.find_element(By.XPATH, input_xpath)
+
+                            select = Select(select_element)
+                            try:
+                                # Try LinkedIn first
+                                linkedin_options = [
+                                    opt
+                                    for opt in select.options
+                                    if "linkedin" in opt.text.lower()
+                                ]
+                                if linkedin_options:
+                                    select.select_by_visible_text(
+                                        linkedin_options[0].text
+                                    )
+                                    logging.info(
+                                        f"Selected 'LinkedIn' option from dropdown"
+                                    )
+                                else:
+                                    # Otherwise select first non-empty
+                                    for option in select.options:
+                                        if (
+                                            option.text.strip()
+                                            and option.text.strip().lower()
+                                            not in ["select", "choose"]
+                                        ):
+                                            select.select_by_visible_text(option.text)
+                                            logging.info(
+                                                f"Selected first non-empty option: {option.text}"
+                                            )
+                                            break
+                            except Exception as e:
+                                logging.debug(f"Error selecting option: {e}")
+                        except:
+                            continue
+            except Exception as e:
+                logging.debug(f"Error handling 'How did you hear' dropdown: {e}")
+
+
+            # 5. Execute the original automation logic
+            logging.info("Running original execute_automation for any remaining fields")
+            execute_automation(driver, locators, filled_locators)
+
+
+            # 4. Fill using CSV question-answer pairs
+            logging.info("Filling using CSV question-answer pairs")
             fill_form(driver, qa_data, filled_fields, filled_locators)
+
+            # 6. Final check for required fields
+            handle_uninteracted_required_elements(driver, config, filled_locators)
             wait_until_all_required_filled(driver)
 
+            # Continue with the rest of the application process
             try:
                 next_button = wait.until(
                     EC.element_to_be_clickable(
@@ -801,19 +1431,62 @@ def run_jobvite(config, locators, credentials, jobs, resume):
                     )
                 )
                 next_button.click()
-                logging.info(
-                    "-----Clicked the Next button proceeding to the next page-----"
-                )
+                logging.info("------Clicked Next button----")
                 time.sleep(5)
-                print("---- Clicked the Next button proceeding to the next page-------")
 
-                execute_automation(driver, locators, filled_locators)
+                # Re-apply our config-based field filling to make sure resume didn't override anything
+                # execute_automation(driver, locators, filled_locators)
                 handle_uninteracted_required_elements(driver, config, filled_locators)
-                qa_data = read_csv(csv_file)
                 fill_form(driver, qa_data, filled_fields, filled_locators)
                 wait_until_all_required_filled(driver)
 
-            except:
+                # Try to find another Next button on the second page
+                try:
+                    next_button = wait.until(
+                        EC.element_to_be_clickable(
+                            (
+                                By.CSS_SELECTOR,
+                                "button.jv-button.jv-button-primary.jv-button-large",
+                            )
+                        )
+                    )
+                    next_button.click()
+                    logging.info(
+                        "-----Clicked the Next button proceeding to the next page-----"
+                    )
+                    time.sleep(5)
+
+                    # Re-apply our field filling after going to next page
+                    # execute_automation(driver, locators, filled_locators)
+                    handle_uninteracted_required_elements(
+                        driver, config, filled_locators
+                    )
+                    fill_form(driver, qa_data, filled_fields, filled_locators)
+                    wait_until_all_required_filled(driver)
+                except Exception as e:
+                    logging.info(f"No additional Next button found or error: {e}")
+                    # Will continue to Send Application button
+
+            except Exception as e:
+                logging.info(f"No Next button found: {e}")
+                try:
+                    send_button = wait.until(
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//button[contains(@class, 'jv-button-primary') and contains(., 'Send Application')]",
+                            )
+                        )
+                    )
+                    driver.execute_script("arguments[0].click();", send_button)
+                    logging.info("No Next button found, clicked Send Application.")
+                except Exception as send_e:
+                    logging.warning(
+                        f"Could not find either Next or Send Application button: {send_e}"
+                    )
+
+            # Final send application button
+            try:
                 send_button = wait.until(
                     EC.element_to_be_clickable(
                         (
@@ -823,53 +1496,44 @@ def run_jobvite(config, locators, credentials, jobs, resume):
                     )
                 )
                 driver.execute_script("arguments[0].click();", send_button)
-                print("No Next button found, clicked Send Application.")
-                # time.sleep(20)
+                logging.info("------Clicked 'Send Application' button-------")
+                time.sleep(5)  # Wait for form submission
 
-            send_button = wait.until(
-                EC.element_to_be_clickable(
-                    (
-                        By.XPATH,
-                        "//button[contains(@class, 'jv-button-primary') and contains(., 'Send Application')]",
-                    )
-                )
-            )
-            driver.execute_script("arguments[0].click();", send_button)
-            logging.info("------Clicked 'Send Application' button-------")
-            # time.sleep(20)
-
-            try:
-                confirmation_message = wait.until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, "h2.jv-page-message-header")
-                    )
-                )
-                print(
-                    "---------------------Applied_Successfully----------------------------------------"
-                )
-                logging.info("Application submitted successfully!")
-                log_job_status(job_link, "Successfully Applied")
-
-            except TimeoutException:
                 try:
-                    already_applied_message = wait.until(
+                    confirmation_message = wait.until(
                         EC.presence_of_element_located(
-                            (By.CSS_SELECTOR, "p.jv-page-error-header")
+                            (By.CSS_SELECTOR, "h2.jv-page-message-header")
                         )
                     )
                     print(
-                        "---------------------------already_applied----------------------------------------"
+                        "---------------------Applied_Successfully----------------------------------------"
                     )
-                    logging.info(
-                        "-----You have already submitted the application------"
-                    )
-                    log_job_status(job_link, "Already Submitted")
+                    logging.info("Application submitted successfully!")
+                    log_job_status(job_link, "Successfully Applied")
 
                 except TimeoutException:
-                    logging.error(
-                        "Unable to submit the application and no confirmation message found."
-                    )
-                    log_job_status(job_link, "Submission Failed")
+                    try:
+                        already_applied_message = wait.until(
+                            EC.presence_of_element_located(
+                                (By.CSS_SELECTOR, "p.jv-page-error-header")
+                            )
+                        )
+                        print(
+                            "---------------------------already_applied----------------------------------------"
+                        )
+                        logging.info(
+                            "-----You have already submitted the application------"
+                        )
+                        log_job_status(job_link, "Already Submitted")
+
+                    except TimeoutException:
+                        logging.error(
+                            "Unable to submit the application and no confirmation message found."
+                        )
+                        log_job_status(job_link, "Submission Failed")
+            except Exception as e:
+                logging.error(f"Error in final application submission: {e}")
+                log_job_status(job_link, "Submission Error")
 
         except TimeoutException:
             logging.error(f"Timeout: Could not find elements for job {job_link}")
@@ -877,27 +1541,26 @@ def run_jobvite(config, locators, credentials, jobs, resume):
         except NoSuchElementException as e:
             logging.error(f"Error applying for job: {e}")
             log_job_status(job_link, "Failed")
+        except Exception as e:
+            logging.error(f"Unexpected error applying to {job_link}: {e}")
+            log_job_status(job_link, "Failed")
 
-    config_files = list_user_configs()
-    selected_config = select_user_config(config_files)
-    credentials = load_credentials(selected_config)
-    config_path = os.path.join("credentials", selected_config)
+    # Setup the resume path
+    resume_filename = os.path.basename(resume)
+    resume_path = resume  # Use the full path that was passed to the function
 
-    with open(config_path, "r") as file:
-        config = yaml.safe_load(file)
-
-    resume_filename = config.get(
-        "resume_file", selected_config.replace(".yaml", ".txt")
-    )
-    resume_path = os.path.join("resume", resume_filename)
+    logging.info(f"======== USING RESUME: {resume_path} ========")
 
     if not os.path.isfile(resume_path):
         logging.error(f"Resume file not found at {resume_path}")
         sys.exit(1)
 
-    with open("locators/jobvite_locators.json", "r") as f:
-        locators = json.load(f)
+    # Load locators if not already provided
+    if not locators or not isinstance(locators, dict) or len(locators) == 0:
+        with open("locators/jobvite_locators.json", "r") as f:
+            locators = json.load(f)
 
+    # Update locator values from config
     for key in locators.keys():
         if key in config:
             locators[key]["value"] = config[key]
@@ -907,29 +1570,61 @@ def run_jobvite(config, locators, credentials, jobs, resume):
         if locator.get("value") == placeholder:
             locator["value"] = config.get(key.replace("_", " "), "")
 
+    # Set up WebDriver
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     wait = WebDriverWait(driver, 20)
 
+    # Get job list and process jobs
     applied_jobs = load_applied_jobs()
     job_links = generate_job_links(job_csv_file)
 
-    for job in job_links:
-        job_id = job["job_id"]
-        job_link = job["url"]
+    logging.info(f"Found {len(job_links)} Jobvite jobs to process")
 
-        if (
-            job_link in applied_jobs
-            and applied_jobs[job_link] == "Successfully Applied"
-        ):
-            logging.info(f"Skipping already applied job: {job_id}")
-            continue
+    try:
+        for job in job_links:
+            job_id = job["job_id"]
+            job_link = job["url"]
 
-        apply_to_job(driver, wait, job_id, job_link, resume_path, locators, config)
+            if (
+                job_link in applied_jobs
+                and applied_jobs[job_link] == "Successfully Applied"
+            ):
+                logging.info(f"Skipping already applied job: {job_id}")
+                continue
 
-    driver.quit()
+            # Create a merged config that combines config and credentials
+            # This ensures we have all values from credentials in the config for form filling
+            merged_config = config.copy()
+
+            # Convert pandas DataFrame config to dict if needed
+            if isinstance(config, pd.DataFrame):
+                # Check if it's a DataFrame and convert properly
+                if len(config) > 0:
+                    # Convert the first row to a dictionary
+                    config_dict = config.iloc[0].to_dict()
+                    merged_config = config_dict
+                else:
+                    merged_config = {}
+
+            # Update with credentials values (which take precedence)
+            merged_config.update(credentials)
+
+            logging.info("Using merged config with credentials for form filling")
+
+            apply_to_job(
+                driver, wait, job_id, job_link, resume_path, locators, merged_config
+            )
+
+            # Add a short delay between job applications
+            time.sleep(random.uniform(3, 7))
+    except Exception as e:
+        logging.error(f"Error in job application process: {e}")
+    finally:
+        driver.quit()
+        logging.info("Jobvite application process completed")
 
 
 def run_lever(config, locators, credentials, jobs, resume):
