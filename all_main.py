@@ -1406,11 +1406,9 @@ def run_jobvite(config, locators, credentials, jobs, resume):
             except Exception as e:
                 logging.debug(f"Error handling 'How did you hear' dropdown: {e}")
 
-
             # 5. Execute the original automation logic
             logging.info("Running original execute_automation for any remaining fields")
             execute_automation(driver, locators, filled_locators)
-
 
             # 4. Fill using CSV question-answer pairs
             logging.info("Filling using CSV question-answer pairs")
