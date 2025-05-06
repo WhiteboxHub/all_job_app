@@ -1,11 +1,11 @@
 {
   "first_name": {
-    "selector": "input[autocomplete='given-name'][type='text'][maxlength='100']",
+    "selector": "input[autocomplete='family-name'][type='text'][maxlength='100']",
     "type": "input",
     "value": "{{ first name }}"
   },
   "last_name": {
-    "selector": "input[autocomplete='family-name'][type='text'][maxlength='100']",
+    "selector": "input[autocomplete='given-name'][type='text'][maxlength='100']",
     "type": "input",
     "value": "{{ last name }}"
   },

@@ -1,7 +1,13 @@
+PyYAML
+python-dotenv
+requests
+beautifulsoup4
 selenium
-webdriver-manager
 undetected-chromedriver
-pyyaml
+webdriver-manager
 pandas
+pyyaml
 fuzzywuzzy
-python-levenshtein
+python-Levenshtein
+
+
