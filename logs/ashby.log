@@ -1,0 +1,418 @@
+2025-05-10 04:50:45,080 - INFO - Selected profile: hkd.yaml
+2025-05-10 04:50:45,287 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 04:50:45,287 - INFO - ====== WebDriver manager ======
+2025-05-10 04:50:45,367 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:50:45,406 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:50:45,428 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 04:50:46,589 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 04:50:51,136 - ERROR - No Ashby job links found in the CSV file.
+2025-05-10 04:52:37,089 - INFO - Selected profile: hkd.yaml
+2025-05-10 04:52:37,215 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 04:52:37,215 - INFO - ====== WebDriver manager ======
+2025-05-10 04:52:37,300 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:52:37,334 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:52:37,359 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 04:52:38,667 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 04:52:43,206 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 04:52:43,951 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 04:52:46,957 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:52:46,959 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:52:46,959 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 04:52:47,080 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 04:52:50,084 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:52:50,084 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:52:50,084 - INFO - Processing job: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 04:52:51,347 - INFO - Opened job page: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 04:52:54,352 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:52:54,353 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:52:54,428 - INFO - Job application process completed!
+2025-05-10 04:56:21,553 - INFO - Selected profile: hkd.yaml
+2025-05-10 04:56:21,703 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 04:56:21,703 - INFO - ====== WebDriver manager ======
+2025-05-10 04:56:21,791 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:56:21,892 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 04:56:21,939 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 04:56:24,386 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 04:56:28,916 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 04:56:31,168 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 04:56:34,173 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:56:34,173 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:56:34,173 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 04:56:35,287 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 04:56:38,294 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:56:38,299 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:56:38,300 - INFO - Processing job: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 04:56:39,649 - INFO - Opened job page: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 04:56:42,656 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 04:56:42,671 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 04:56:42,727 - INFO - Job application process completed!
+2025-05-10 05:03:05,610 - INFO - Selected profile: hkd.yaml
+2025-05-10 05:03:05,781 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 05:03:05,782 - INFO - ====== WebDriver manager ======
+2025-05-10 05:03:05,865 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:03:05,899 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:03:05,930 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 05:03:07,130 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 05:03:11,899 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:03:13,628 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:03:18,634 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:03:18,634 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:18,634 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:03:18,634 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:18,635 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:03:18,635 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:18,635 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:03:18,635 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:03:18,635 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:03:19,766 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:03:24,772 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:03:24,772 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:24,772 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:03:24,772 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:24,772 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:03:24,772 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:24,772 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:03:24,772 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:03:24,772 - INFO - Processing job: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:03:25,930 - INFO - Opened job page: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:03:30,931 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:03:30,932 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:30,932 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:03:30,933 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:30,933 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:03:30,933 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:03:30,933 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:03:30,933 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:03:31,157 - INFO - Job application process completed!
+2025-05-10 05:05:05,914 - INFO - Selected profile: hkd.yaml
+2025-05-10 05:05:06,035 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 05:05:06,036 - INFO - ====== WebDriver manager ======
+2025-05-10 05:05:06,118 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:05:06,162 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:05:06,211 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 05:05:07,677 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 05:05:10,698 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:05:12,504 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:05:17,511 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:05:17,516 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:17,516 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:05:17,517 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:17,517 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:05:17,517 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:17,517 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:05:17,517 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:05:17,518 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:05:18,668 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:05:23,674 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:05:23,674 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:23,675 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:05:23,675 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:23,675 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:05:23,675 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:23,675 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:05:23,675 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:05:23,675 - INFO - Processing job: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:05:24,826 - INFO - Opened job page: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:05:29,829 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:05:29,830 - ERROR - Selector button._primary_8wvgw_96 failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:29,830 - INFO - Attempting to find apply button with selector: button[data-testid='apply-button']
+2025-05-10 05:05:29,831 - ERROR - Selector button[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:29,831 - INFO - Attempting to find apply button with selector: a[data-testid='apply-button']
+2025-05-10 05:05:29,831 - ERROR - Selector a[data-testid='apply-button'] failed: 'AshbyAutomation' object has no attribute 'wait'
+2025-05-10 05:05:29,831 - ERROR - Error in open_job_page: Could not find apply button with any selector
+2025-05-10 05:05:29,831 - ERROR - Unexpected error: Could not find apply button with any selector
+2025-05-10 05:05:30,065 - INFO - Job application process completed!
+2025-05-10 05:07:29,149 - INFO - Selected profile: hkd.yaml
+2025-05-10 05:07:29,277 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 05:07:29,277 - INFO - ====== WebDriver manager ======
+2025-05-10 05:07:29,359 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:07:29,490 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:07:29,587 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 05:07:31,357 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 05:07:35,417 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:07:36,750 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:07:41,756 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:07:41,891 - INFO - Apply button clicked successfully!
+2025-05-10 05:07:46,898 - INFO - Attempting to upload resume from: /Users/hrinnova-path.com/Desktop/all_job_combine/all_job_app/resume/hkd.pdf
+2025-05-10 05:07:47,492 - INFO - Resume file sent to input element
+2025-05-10 05:08:02,503 - WARNING - No explicit upload confirmation detected: Message: 
+
+2025-05-10 05:08:02,504 - INFO - Filling out the application form...
+2025-05-10 05:08:02,504 - WARNING - No value provided for mandatory field: name
+2025-05-10 05:08:02,888 - INFO - Filled field email with value hkinnovapath@gmail.com
+2025-05-10 05:08:13,165 - WARNING - Error filling field phone with selector input[type='tel']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:08:23,477 - WARNING - Error filling field phone with selector input[name='phone']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:08:33,796 - WARNING - Error filling field phone with selector input[type='number']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:08:33,797 - WARNING - No value provided for mandatory field: address
+2025-05-10 05:08:33,797 - WARNING - No value provided for mandatory field: location
+2025-05-10 05:08:33,870 - INFO - Filled LinkedIn field
+2025-05-10 05:08:33,876 - INFO - Filling out the Q&A section...
+2025-05-10 05:08:33,877 - ERROR - Error filling Q&A section: 'dict' object has no attribute 'empty'
+2025-05-10 05:08:33,877 - ERROR - Error filling application form: 'dict' object has no attribute 'empty'
+2025-05-10 05:08:33,877 - ERROR - Unexpected error: 'dict' object has no attribute 'empty'
+2025-05-10 05:08:33,877 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:08:35,072 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:08:40,077 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:08:40,228 - INFO - Apply button clicked successfully!
+2025-05-10 05:08:45,235 - INFO - Attempting to upload resume from: /Users/hrinnova-path.com/Desktop/all_job_combine/all_job_app/resume/hkd.pdf
+2025-05-10 05:08:45,827 - INFO - Resume file sent to input element
+2025-05-10 05:09:01,323 - WARNING - No explicit upload confirmation detected: Message: 
+
+2025-05-10 05:09:01,324 - INFO - Filling out the application form...
+2025-05-10 05:09:01,324 - WARNING - No value provided for mandatory field: name
+2025-05-10 05:09:01,380 - INFO - Filled field email with value hkinnovapath@gmail.com
+2025-05-10 05:09:11,661 - WARNING - Error filling field phone with selector input[type='tel']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:09:21,958 - WARNING - Error filling field phone with selector input[name='phone']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:09:32,288 - WARNING - Error filling field phone with selector input[type='number']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x00000001011528b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x00000001011499ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000100c02600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000100c54304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000100c54521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000100ca4204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000100c7a33d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000100ca1566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000100c7a0e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000100c4661d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000100c47281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000101110580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000101114445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x00000001010eaed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000101114e7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x00000001010d9de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000101137a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000101137c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x00000001011495b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:09:32,290 - WARNING - No value provided for mandatory field: address
+2025-05-10 05:09:32,290 - WARNING - No value provided for mandatory field: location
+2025-05-10 05:09:32,357 - INFO - Filled LinkedIn field
+2025-05-10 05:09:32,357 - INFO - Filling out the Q&A section...
+2025-05-10 05:09:32,357 - ERROR - Error filling Q&A section: 'dict' object has no attribute 'empty'
+2025-05-10 05:09:32,357 - ERROR - Error filling application form: 'dict' object has no attribute 'empty'
+2025-05-10 05:09:32,357 - ERROR - Unexpected error: 'dict' object has no attribute 'empty'
+2025-05-10 05:09:32,357 - INFO - Processing job: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:09:33,513 - INFO - Opened job page: https://jobs.ashbyhq.com/magic.dev/bcc8d988-47ea-4089-9619-80260abb71b5
+2025-05-10 05:09:38,515 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:09:38,616 - INFO - Apply button clicked successfully!
+2025-05-10 05:09:43,622 - INFO - Attempting to upload resume from: /Users/hrinnova-path.com/Desktop/all_job_combine/all_job_app/resume/hkd.pdf
+2025-05-10 05:09:44,192 - INFO - Resume file sent to input element
+2025-05-10 05:09:52,277 - INFO - Application interrupted - saving state
+2025-05-10 05:10:52,289 - INFO - Selected profile: hkd.yaml
+2025-05-10 05:10:52,402 - INFO - Detected Chrome version: 136.0.7103.93
+2025-05-10 05:10:52,402 - INFO - ====== WebDriver manager ======
+2025-05-10 05:10:52,484 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:10:52,559 - INFO - Get LATEST chromedriver version for google-chrome
+2025-05-10 05:10:52,642 - INFO - Driver [/Users/hrinnova-path.com/.wdm/drivers/chromedriver/mac64/136.0.7103.92/chromedriver-mac-arm64/chromedriver] found in cache
+2025-05-10 05:10:54,056 - INFO - patching driver executable /Users/hrinnova-path.com/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2025-05-10 05:10:58,909 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:11:00,687 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/7f4672f8-5ea2-45e5-b230-5fdbf3ada22e
+2025-05-10 05:11:05,691 - INFO - Attempting to find apply button with selector: button._primary_8wvgw_96
+2025-05-10 05:11:05,812 - INFO - Apply button clicked successfully!
+2025-05-10 05:11:10,817 - INFO - Attempting to upload resume from: /Users/hrinnova-path.com/Desktop/all_job_combine/all_job_app/resume/hkd.pdf
+2025-05-10 05:11:11,391 - INFO - Resume file sent to input element
+2025-05-10 05:11:26,927 - WARNING - No explicit upload confirmation detected: Message: 
+
+2025-05-10 05:11:26,928 - INFO - Filling out the application form...
+2025-05-10 05:11:26,928 - WARNING - No value provided for mandatory field: name
+2025-05-10 05:11:27,334 - INFO - Filled field email with value hkinnovapath@gmail.com
+2025-05-10 05:11:37,635 - WARNING - Error filling field phone with selector input[type='tel']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x0000000102fec8b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x0000000102fe39ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000102a9c600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000102aee304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000102aee521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000102b3e204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000102b1433d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000102b3b566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000102b140e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000102ae061d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000102ae1281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000102faa580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000102fae445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x0000000102f84ed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000102faee7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x0000000102f73de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000102fd1a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000102fd1c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x0000000102fe35b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:11:47,927 - WARNING - Error filling field phone with selector input[name='phone']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x0000000102fec8b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x0000000102fe39ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000102a9c600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000102aee304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000102aee521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000102b3e204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000102b1433d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000102b3b566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000102b140e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000102ae061d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000102ae1281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000102faa580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000102fae445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x0000000102f84ed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000102faee7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x0000000102f73de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000102fd1a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000102fd1c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x0000000102fe35b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:11:58,223 - WARNING - Error filling field phone with selector input[type='number']: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x0000000102fec8b8 undetected_chromedriver + 5986488
+1   undetected_chromedriver             0x0000000102fe39ea undetected_chromedriver + 5949930
+2   undetected_chromedriver             0x0000000102a9c600 undetected_chromedriver + 415232
+3   undetected_chromedriver             0x0000000102aee304 undetected_chromedriver + 750340
+4   undetected_chromedriver             0x0000000102aee521 undetected_chromedriver + 750881
+5   undetected_chromedriver             0x0000000102b3e204 undetected_chromedriver + 1077764
+6   undetected_chromedriver             0x0000000102b1433d undetected_chromedriver + 906045
+7   undetected_chromedriver             0x0000000102b3b566 undetected_chromedriver + 1066342
+8   undetected_chromedriver             0x0000000102b140e3 undetected_chromedriver + 905443
+9   undetected_chromedriver             0x0000000102ae061d undetected_chromedriver + 693789
+10  undetected_chromedriver             0x0000000102ae1281 undetected_chromedriver + 696961
+11  undetected_chromedriver             0x0000000102faa580 undetected_chromedriver + 5715328
+12  undetected_chromedriver             0x0000000102fae445 undetected_chromedriver + 5731397
+13  undetected_chromedriver             0x0000000102f84ed0 undetected_chromedriver + 5562064
+14  undetected_chromedriver             0x0000000102faee7b undetected_chromedriver + 5734011
+15  undetected_chromedriver             0x0000000102f73de4 undetected_chromedriver + 5492196
+16  undetected_chromedriver             0x0000000102fd1a98 undetected_chromedriver + 5876376
+17  undetected_chromedriver             0x0000000102fd1c60 undetected_chromedriver + 5876832
+18  undetected_chromedriver             0x0000000102fe35b1 undetected_chromedriver + 5948849
+19  libsystem_pthread.dylib             0x00007ff8141d4df1 _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8141d0857 thread_start + 15
+
+2025-05-10 05:11:58,224 - WARNING - No value provided for mandatory field: address
+2025-05-10 05:11:58,224 - WARNING - No value provided for mandatory field: location
+2025-05-10 05:11:58,282 - INFO - Filled LinkedIn field
+2025-05-10 05:11:58,282 - INFO - Filling out the Q&A section...
+2025-05-10 05:11:58,282 - ERROR - Error filling Q&A section: 'dict' object has no attribute 'empty'
+2025-05-10 05:11:58,282 - ERROR - Error filling application form: 'dict' object has no attribute 'empty'
+2025-05-10 05:11:58,282 - ERROR - Unexpected error: 'dict' object has no attribute 'empty'
+2025-05-10 05:11:58,282 - INFO - Processing job: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:11:59,492 - INFO - Opened job page: https://jobs.ashbyhq.com/P-1%20AI/e289da4d-a258-4eba-a995-c9a1452a0fcf
+2025-05-10 05:12:02,283 - INFO - Application interrupted - saving state
