@@ -1,83 +1,77 @@
+# Job Application Automation
 
-# All Job Applications Automation
+This project automates the job application process for three platforms: Greenhouse, Jobvite, and Lever. It uses Selenium WebDriver to interact with web elements, fill out forms, and submit applications.
 
-This project combines three separate job application automation scripts into one unified codebase:
-- ✅ Greenhouse
-- ✅ Lever
-- ✅ Jobvite
+## Features
 
-Each script can still run independently, but now you can run them all from a single entry point.
+- **Multi-Platform Support**: Automates applications for Greenhouse, Jobvite, and Lever.
+- **User Configuration**: Loads user credentials and resumes from YAML and CSV files.
+- **Form Filling**: Automatically fills out application forms using predefined answers.
+- **Error Handling**: Robust error handling and logging for troubleshooting.
+- **Session Management**: Saves and resumes application sessions.
 
----
+## Prerequisites
 
-## 📁 Project Structure
+- Python 3.6 or higher
+- Selenium WebDriver
+- ChromeDriver
+- Required Python packages: `selenium`, `undetected_chromedriver`, `pyyaml`, `pandas`, `fuzzywuzzy`, `webdriver_manager`
 
-```
-all_job_apps/
-│
-├── main.py                     # Central script to run all automations
-├── requirements.txt            # Combined dependencies
-│
-├── greenhouse/                 # Greenhouse automation
-│   └── (original files + run.py)
-├── lever/                      # Lever automation
-│   └── (original files + run.py)
-├── jobvite/                    # Jobvite automation
-│   └── (original files + run.py)
-│
-└── README.md                   # This file
-```
+## Installation
 
----
+1. Clone the repository:
 
-## 🚀 How to Use
+   ```bash
+   git clone https://github.com/WhiteboxHub/all_job_app.git
+   cd all_job_app
+   ```
+2. Create and activate a virtual environment:
 
-### 1. Clone the repository and install dependencies
+   macOS/Linux:
 
-```bash
-git clone <repo-url>
-cd all_job_apps
-pip install -r requirements.txt
-```
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-### 2. Run all automations at once
+   Windows:
+
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+3. Install the required packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Configuration
+
+1. **User Credentials**: Place your user credentials in YAML files in the `credentials` directory.
+2. **Job Links**: Add job links to the `jobs/linkedin_jobs.csv` file.
+3. **Answers**: Provide answers to common application questions in the `config/greenhouse_answers.csv`, `config/jobvite_answers.csv`, and `config/lever_answers.csv` files.
+4. **Locators**: Define CSS selectors and XPath expressions for form elements in the `locators` directory.
+5. **Resume**: add all the required resumes and in required format  in the `resume` directory.
+
+## Usage
+
+Run the main script to start the automation process:
 
 ```bash
 python main.py
 ```
 
-### 3. Run individual automations
+Follow the on-screen instructions to select a user profile and platform.
 
-Each automation module (Greenhouse, Lever, Jobvite) has a `run.py` file.
+## Project Structure
 
-```bash
-python greenhouse/run.py
-python lever/run.py
-python jobvite/run.py
-```
+- `credentials/`: Contains user credential files in YAML format.
+- `config/`: Contains CSV files with answers to common application questions.
+- `jobs/`: Contains CSV files with job links.
+- `locators/`: Contains JSON files with CSS selectors and XPath expressions for form elements for each platform.
+- `logs/`: Contains log files for troubleshooting.
+- `resume/`: Contains all the resumes files.
+- `main.py`: The main script to run the automation process.
 
----
-
-## 🛠️ Configuration
-
-All user-specific and platform-specific files remain in their respective folders:
-- `config/`, `credentials/`, `locators/`, `resume/`, `logs/` remain unchanged
-- Use `answers.csv`, YAML credentials, and JSON locator files as before
-
----
-
-## 📦 Dependencies
-
-All dependencies from the three projects are combined in `requirements.txt`. Be sure to use a virtual environment:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
----
-
-## 🙌 Authors
-
-Made with 💻 by combining automation logic from 3 projects.
+#### - Made with ❤️ by Whitebox developers
