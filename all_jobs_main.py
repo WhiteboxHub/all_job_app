@@ -30,7 +30,6 @@
 # from webdriver_manager.chrome import ChromeDriverManager
 # import undetected_chromedriver as uc
 
-
 # def setup_driver():
 #     """Setup and return a configured WebDriver."""
 #     try:
@@ -110,6 +109,12 @@
 #             level=logging.INFO,
 #             format="%(asctime)s - %(levelname)s - %(message)s"
 #         )
+#         # Adding a stream handler to display logs in the terminal
+#         console_handler = logging.StreamHandler(sys.stdout)
+#         console_handler.setLevel(logging.INFO)
+#         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+#         console_handler.setFormatter(formatter)
+#         logging.getLogger().addHandler(console_handler)
 
 #     def list_users(self, credentials_dir="credentials"):
 #         yaml_files = glob.glob(os.path.join(credentials_dir, "*.yaml"))
@@ -388,7 +393,9 @@
 #         logs_directory = "logs"
 #         os.makedirs(logs_directory, exist_ok=True)
 #         today_date = datetime.datetime.now().strftime("%Y-%m-%d")
-#         results_filename = os.path.join(logs_directory, f"job_application_{selected_user}_{today_date}.csv")
+#         results_filename = os.path.join(
+#             logs_directory, f"job_application_{selected_user}_{today_date}.csv"
+#         )
 #         self.initialize_csv(results_filename)
 
 #         job_urls = self.load_job_urls()
@@ -422,6 +429,12 @@
 #             level=logging.INFO,
 #             format="%(asctime)s - %(levelname)s - %(message)s"
 #         )
+#         # Adding a stream handler to display logs in the terminal
+#         console_handler = logging.StreamHandler(sys.stdout)
+#         console_handler.setLevel(logging.INFO)
+#         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+#         console_handler.setFormatter(formatter)
+#         logging.getLogger().addHandler(console_handler)
 
 #     def get_logger(self):
 #         log_dir = "logs"
@@ -852,6 +865,8 @@
 #             if locator.get("value") == placeholder:
 #                 locator["value"] = config.get(key.replace("_", " "), "")
 
+#         options = webdriver.ChromeOptions()
+#         options.add_argument("--start-maximized")
 #         driver = setup_driver()
 #         wait = WebDriverWait(driver, 20)
 
@@ -870,13 +885,12 @@
 
 #         driver.quit()
 
-
 # class LeverAutomation:
 #     def __init__(self):
 #         self.setup_logging()
 #         self.lever_base_url = "https://jobs.lever.co"
-#         self.profile_yaml = self.select_profile()
-#         self.candidate_name = os.path.splitext(self.profile_yaml)[0]
+#         self.profile_yaml = self.select_profile()  # Ensure profile_yaml is set here
+#         self.candidate_name = os.path.splitext(self.profile_yaml)[0]  # Extract candidate name
 #         self.load_locators()
 #         self.credentials = self.load_config(f"credentials/{self.profile_yaml}")
 #         self.answers = self.load_answers("config/lever_answers.csv")
@@ -890,8 +904,15 @@
 #             level=logging.INFO,
 #             format="%(asctime)s - %(levelname)s - %(message)s"
 #         )
+#         # Adding a stream handler to display logs in the terminal
+#         console_handler = logging.StreamHandler(sys.stdout)
+#         console_handler.setLevel(logging.INFO)
+#         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+#         console_handler.setFormatter(formatter)
+#         logging.getLogger().addHandler(console_handler)
 
 #     def select_profile(self):
+#         """Dynamically list YAML files in configuration/"""
 #         config_dir = "credentials"
 #         yaml_files = [
 #             f for f in os.listdir(config_dir)
@@ -1607,6 +1628,7 @@
 #     print("1. Greenhouse")
 #     print("2. Jobvite")
 #     print("3. Lever")
+#     print("0. Exit")
 
 #     choice = input("Enter the number of your choice: ").strip()
 
@@ -1619,6 +1641,9 @@
 #     elif choice == "3":
 #         lever_automation = LeverAutomation()
 #         lever_automation.run()
+#     elif choice == "0":
+#         print("Exiting the program.")
+#         exit(0)
 #     else:
 #         print("Invalid choice.")
 
@@ -1669,7 +1694,6 @@ def setup_driver():
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
 
-        # Get the Chrome version
         chrome_version = None
         try:
             if sys.platform == "darwin":  # macOS
@@ -1711,12 +1735,10 @@ def setup_driver():
 
         if chrome_version:
             logging.info(f"Detected Chrome version: {chrome_version}")
-            # Use webdriver_manager to get the correct driver version
             service = Service(ChromeDriverManager().install())
         else:
             service = Service(ChromeDriverManager().install())
 
-        # Use undetected_chromedriver with specific version
         driver = uc.Chrome(
             options=chrome_options,
             service=service,
@@ -1735,11 +1757,10 @@ class GreenhouseAutomation:
         if not os.path.exists("logs"):
             os.makedirs("logs")
         logging.basicConfig(
-            filename="logs/greenhouse.log",
+            filename="logs/greenhouse_terminal.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(message)s"
         )
-        # Adding a stream handler to display logs in the terminal
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
@@ -2024,7 +2045,7 @@ class GreenhouseAutomation:
         os.makedirs(logs_directory, exist_ok=True)
         today_date = datetime.datetime.now().strftime("%Y-%m-%d")
         results_filename = os.path.join(
-            logs_directory, f"job_application_{selected_user}_{today_date}.csv"
+            logs_directory, f"grenhouse_application_{selected_user}_{today_date}.csv"
         )
         self.initialize_csv(results_filename)
 
@@ -2049,17 +2070,16 @@ class GreenhouseAutomation:
 class JobviteAutomation:
     def __init__(self):
         self.setup_logging()
-        self.interacted_elements = set()  # Ensure interacted_elements is defined
+        self.interacted_elements = set()
 
     def setup_logging(self):
         if not os.path.exists("logs"):
             os.makedirs("logs")
         logging.basicConfig(
-            filename="logs/jobvite.log",
+            filename="logs/jobvite_terminal.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(message)s"
         )
-        # Adding a stream handler to display logs in the terminal
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.INFO)
         formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
@@ -2070,7 +2090,7 @@ class JobviteAutomation:
         log_dir = "logs"
         os.makedirs(log_dir, exist_ok=True)
         date_str = datetime.datetime.now().strftime("%d-%m-%Y")
-        log_filename = f"{date_str}.log"
+        log_filename = f"jobvite_{date_str}.log"
         log_file_path = os.path.join(log_dir, log_filename)
         logger = logging.getLogger("JobStatusLogger")
 
@@ -2090,13 +2110,13 @@ class JobviteAutomation:
         logger.info(log_entry)
 
     def load_applied_jobs(self):
-        if os.path.exists("applied_jobs.yaml"):
-            with open("applied_jobs.yaml", "r") as file:
+        if os.path.exists("logs/jobvite_applied_jobs.yaml"):
+            with open("logs/jobvite_applied_jobs.yaml", "r") as file:
                 return yaml.safe_load(file) or {}
         return {}
 
     def save_applied_jobs(self, data):
-        with open("applied_jobs.yaml", "w") as file:
+        with open("logs/jobvite_applied_jobs.yaml", "w") as file:
             yaml.dump(data, file)
 
     def log_job_status(self, job_link, status, candidate_name):
@@ -2384,7 +2404,7 @@ class JobviteAutomation:
             logging.info("Clicked Next button.")
             time.sleep(5)
 
-            self.execute_automation(driver, locators, filled_locators)
+            # self.execute_automation(driver, locators, filled_locators)
             self.handle_uninteracted_required_elements(driver, config, filled_locators)
             qa_data = self.read_csv("config/jobvite_answers.csv")
             self.fill_form(driver, qa_data, filled_fields, filled_locators)
@@ -2399,7 +2419,7 @@ class JobviteAutomation:
                 time.sleep(5)
                 logging.info("Clicked the Next button proceeding to the next page.")
 
-                self.execute_automation(driver, locators, filled_locators)
+                # self.execute_automation(driver, locators, filled_locators)
                 self.handle_uninteracted_required_elements(driver, config, filled_locators)
                 qa_data = self.read_csv("config/jobvite_answers.csv")
                 self.fill_form(driver, qa_data, filled_fields, filled_locators)
@@ -2517,32 +2537,15 @@ class JobviteAutomation:
 
 class LeverAutomation:
     def __init__(self):
-        self.setup_logging()
         self.lever_base_url = "https://jobs.lever.co"
-        self.profile_yaml = self.select_profile()  # Ensure profile_yaml is set here
-        self.candidate_name = os.path.splitext(self.profile_yaml)[0]  # Extract candidate name
+        self.profile_yaml = self.select_profile()
+        self.candidate_name = os.path.splitext(self.profile_yaml)[0]
         self.load_locators()
         self.credentials = self.load_config(f"credentials/{self.profile_yaml}")
         self.answers = self.load_answers("config/lever_answers.csv")
         self.driver = setup_driver()
 
-    def setup_logging(self):
-        if not os.path.exists("logs"):
-            os.makedirs("logs")
-        logging.basicConfig(
-            filename="logs/lever.log",
-            level=logging.INFO,
-            format="%(asctime)s - %(levelname)s - %(message)s"
-        )
-        # Adding a stream handler to display logs in the terminal
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-        console_handler.setFormatter(formatter)
-        logging.getLogger().addHandler(console_handler)
-
     def select_profile(self):
-        """Dynamically list YAML files in configuration/"""
         config_dir = "credentials"
         yaml_files = [
             f for f in os.listdir(config_dir)
@@ -2672,6 +2675,114 @@ class LeverAutomation:
             return False
         return True
 
+    def check_required_fields_filled(self):
+        try:
+            required_fields = []
+
+            for selector in (
+                self.locators["FIELD_SELECTORS"].get("full_name", []) +
+                self.locators["FIELD_SELECTORS"].get("email", []) +
+                self.locators["FIELD_SELECTORS"].get("phone", []) +
+                self.locators["FIELD_SELECTORS"].get("linkedin", []) +
+                self.locators["QUESTION_FIELD_SELECTORS"].get("text_input", []) +
+                self.locators["QUESTION_FIELD_SELECTORS"].get("textarea", [])
+            ):
+                selector_type = selector.get('type', 'css')
+                selector_value = selector.get('value', '')
+                try:
+                    by_type = By.CSS_SELECTOR if selector_type == 'css' else By.XPATH
+                    elements = self.driver.find_elements(by_type, selector_value)
+                    for element in elements:
+                        is_required = (
+                            element.get_attribute("required") is not None or
+                            any(
+                                self.driver.find_elements(
+                                    By.XPATH,
+                                    f".//ancestor::*[contains(., '{indicator}')]"
+                                )
+                                for indicator in self.locators["QUESTION_FIELD_SELECTORS"]["required_indicator"]
+                            )
+                        )
+                        if is_required:
+                            required_fields.append({"element": element, "type": "text"})
+                except Exception as e:
+                    logging.warning(f"Error checking selector {selector_value}: {str(e)}")
+
+            for selector in self.locators["QUESTION_FIELD_SELECTORS"].get("dropdown", []):
+                selector_type = selector.get('type', 'css')
+                selector_value = selector.get('value', '')
+                try:
+                    by_type = By.CSS_SELECTOR if selector_type == 'css' else By.XPATH
+                    elements = self.driver.find_elements(by_type, selector_value)
+                    for element in elements:
+                        is_required = (
+                            element.get_attribute("required") is not None or
+                            any(
+                                self.driver.find_elements(
+                                    By.XPATH,
+                                    f".//ancestor::*[contains(., '{indicator}')]"
+                                )
+                                for indicator in self.locators["QUESTION_FIELD_SELECTORS"]["required_indicator"]
+                            )
+                        )
+                        if is_required:
+                            required_fields.append({"element": element, "type": "dropdown"})
+                except Exception as e:
+                    logging.warning(f"Error checking dropdown selector {selector_value}: {str(e)}")
+
+            checkbox_groups = {}
+            for selector in self.locators["QUESTION_FIELD_SELECTORS"].get("checkbox", []):
+                selector_type = selector.get('type', 'css')
+                selector_value = selector.get('value', '')
+                try:
+                    by_type = By.CSS_SELECTOR if selector_type == 'css' else By.XPATH
+                    checkboxes = self.driver.find_elements(by_type, selector_value)
+                    for checkbox in checkboxes:
+                        parent_question = checkbox.find_element(
+                            By.XPATH, "./ancestor::li[contains(@class, 'application-question') or contains(@class, 'question')]"
+                        )
+                        question_text = parent_question.text.strip() or "Unknown question"
+                        is_required = any(
+                            indicator in question_text
+                            for indicator in self.locators["QUESTION_FIELD_SELECTORS"]["required_indicator"]
+                        )
+                        if is_required:
+                            if question_text not in checkbox_groups:
+                                checkbox_groups[question_text] = []
+                            checkbox_groups[question_text].append(checkbox)
+                except Exception as e:
+                    logging.warning(f"Error checking checkbox selector {selector_value}: {str(e)}")
+
+            for field in required_fields:
+                element = field["element"]
+                field_type = field["type"]
+                try:
+                    if field_type in ["text", "textarea"]:
+                        value = element.get_attribute("value")
+                        if not value or value.strip() == "":
+                            logging.warning(f"Required {field_type} field is empty: {element.get_attribute('name') or element.get_attribute('id')}")
+                            return False
+                    elif field_type == "dropdown":
+                        select = Select(element)
+                        if not select.first_selected_option or select.first_selected_option.text.strip() == "":
+                            logging.warning(f"Required dropdown field is not selected: {element.get_attribute('name') or element.get_attribute('id')}")
+                            return False
+                except Exception as e:
+                    logging.warning(f"Error checking {field_type} field: {str(e)}")
+                    return False
+
+            for question_text, checkboxes in checkbox_groups.items():
+                if not any(cb.is_selected() for cb in checkboxes):
+                    logging.warning(f"Required checkbox group '{question_text}' has no selections")
+                    return False
+
+            logging.info("All required fields are filled")
+            return True
+
+        except Exception as e:
+            logging.error(f"Error checking required fields: {str(e)}")
+            return False
+
     def find_element(self, locator_key, sub_key=None, multiple=False, timeout=10):
         if sub_key:
             selectors = self.locators.get(locator_key, {}).get(sub_key, [])
@@ -2744,7 +2855,7 @@ class LeverAutomation:
             )
             logging.info("Made resume input visible")
         except Exception as e:
-            logging.warning(f"Failed to apply visibility script: {e}")
+            logging.warning(f"Failed to apply visibility script: {str(e)}")
 
         try:
             resume_input.send_keys(value)
@@ -2963,27 +3074,63 @@ class LeverAutomation:
         normalized_question = self.normalize_text(question_text)
         logging.info(f"Checkboxes found for '{question_text}': {[cb.get_attribute('name') or cb.text for cb in checkboxes]}")
 
+        is_required = any(indicator in question_text for indicator in self.locators["QUESTION_FIELD_SELECTORS"]["required_indicator"])
+
         for checkbox in checkboxes:
             try:
-                if any(keyword in normalized_question for keyword in ["certify", "agree", "acknowledge", "confirm"]):
-                    if not checkbox.is_selected():
-                        self.driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
-                        self.driver.execute_script("arguments[0].click();", checkbox)
-                        logging.info(f"Checked checkbox for '{question_text}'")
-                    return True
+                label = None
+                try:
+                    label_element = checkbox.find_element(
+                        By.XPATH, "./following-sibling::label | ./preceding-sibling::label | ./parent::label"
+                    )
+                    label = label_element.text.strip()
+                except NoSuchElementException:
+                    label = checkbox.get_attribute("name") or checkbox.get_attribute("value") or ""
+
+                if not label:
+                    logging.info(f"Skipping checkbox with no label for question: {question_text}")
+                    continue
+
+                normalized_label = self.normalize_text(label)
+                logging.info(f"Evaluating checkbox with label: '{label}' (required: {is_required})")
+
+                if "linkedin" in normalized_question or "linkedin" in normalized_label:
+                    if self.credentials["linkedin"]:
+                        if not checkbox.is_selected():
+                            self.driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
+                            self.driver.execute_script("arguments[0].click();", checkbox)
+                            logging.info(f"Checked LinkedIn checkbox for '{question_text}' with label '{label}'")
+                        return True
+                    else:
+                        logging.info(f"Skipping LinkedIn checkbox for '{question_text}' (no LinkedIn URL provided)")
+                        continue
+
+                best_match = None
+                best_score = 0
+                for answer_key, answer_value in self.answers.items():
+                    score = fuzz.ratio(self.normalize_text(answer_key), normalized_label)
+                    if score > best_score:
+                        best_match = answer_key
+                        best_score = score
+
+                if best_match and best_score > 90:
+                    normalized_answer = self.normalize_text(self.answers[best_match])
+                    if normalized_answer in ["yes", "true", "agree", "accept", "confirm"]:
+                        if not checkbox.is_selected():
+                            self.driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
+                            self.driver.execute_script("arguments[0].click();", checkbox)
+                            logging.info(f"Checked checkbox for '{question_text}' with label '{label}' (fuzzy match, score: {best_score})")
+                        return True
+                    else:
+                        logging.info(f"Skipping checkbox for '{question_text}' with label '{label}' (answer: {self.answers[best_match]})")
+                else:
+                    if is_required:
+                        logging.warning(f"Required checkbox for '{question_text}' with label '{label}' not matched (best score: {best_score})")
+                    else:
+                        logging.info(f"No matching answer for checkbox with label '{label}' (best score: {best_score})")
+
             except (ElementNotInteractableException, StaleElementReferenceException) as e:
-                logging.warning(f"Failed to interact with checkbox: {str(e)}")
-                continue
-        for checkbox in checkboxes:
-            try:
-                if checkbox.get_attribute("required") or "required" in (checkbox.get_attribute("class") or "").lower():
-                    if not checkbox.is_selected():
-                        self.driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
-                        self.driver.execute_script("arguments[0].click();", checkbox)
-                        logging.info(f"Checked required checkbox for '{question_text}'")
-                    return True
-            except (ElementNotInteractableException, StaleElementReferenceException) as e:
-                logging.warning(f"Failed to check required checkbox: {str(e)}")
+                logging.warning(f"Failed to interact with checkbox for '{question_text}': {str(e)}")
                 continue
 
         logging.info(f"No relevant checkboxes checked for '{question_text}'")
@@ -3085,15 +3232,30 @@ class LeverAutomation:
         for selector in self.locators["ACKNOWLEDGEMENT_SELECTORS"]:
             selector_type = selector.get('type', 'css')
             selector_value = selector.get('value', '')
+            if "required" in selector_value:
+                logging.info(f"Skipping required acknowledgement checkbox to avoid overlap: {selector_value}")
+                continue
             try:
                 by_type = By.CSS_SELECTOR if selector_type == 'css' else By.XPATH
                 checkbox = self.driver.find_element(by_type, selector_value)
+                label = None
+                try:
+                    label_element = checkbox.find_element(
+                        By.XPATH, "./following-sibling::label | ./preceding-sibling::label | ./parent::label"
+                    )
+                    label = label_element.text.strip()
+                except NoSuchElementException:
+                    label = checkbox.get_attribute("name") or checkbox.get_attribute("value") or "No label"
+
                 if not checkbox.is_selected():
+                    self.driver.execute_script("arguments[0].scrollIntoView(true);", checkbox)
                     self.driver.execute_script("arguments[0].click();", checkbox)
-                    logging.info(f"Checked acknowledgement checkbox with {selector_type} selector {selector_value}")
+                    logging.info(f"Checked acknowledgement checkbox with label '{label}' using {selector_type} selector {selector_value}")
             except NoSuchElementException:
                 logging.info(f"No acknowledgement checkbox found with {selector_type} selector {selector_value}")
                 continue
+            except Exception as e:
+                logging.warning(f"Error handling acknowledgement checkbox with {selector_type} selector {selector_value}: {str(e)}")
 
     def verify_submission(self, timeout=10):
         try:
@@ -3156,7 +3318,7 @@ class LeverAutomation:
                     return "failed - could not apply"
 
                 if not self.validate_required_fields():
-                    return "failed - missing required fields"
+                    return "failed - missing required fields in credentials"
 
                 self.fill_basic_fields()
                 self.handle_location_dropdown()
@@ -3165,6 +3327,21 @@ class LeverAutomation:
 
                 logging.info("Pausing for 1.5 minutes for manual review...")
                 time.sleep(90)
+
+                max_wait_time = 600
+                wait_interval = 30
+                elapsed_time = 0
+                while elapsed_time < max_wait_time:
+                    if self.check_required_fields_filled():
+                        logging.info("All required fields filled, proceeding to submit")
+                        break
+                    logging.info("Some required fields not filled. Waiting 30 seconds for user input...")
+                    time.sleep(wait_interval)
+                    elapsed_time += wait_interval
+
+                if elapsed_time >= max_wait_time and not self.check_required_fields_filled():
+                    logging.error("Timeout: Not all required fields filled within maximum wait time")
+                    return "failed - required fields not filled"
 
                 if self.submit_application():
                     if self.verify_submission():
@@ -3241,9 +3418,14 @@ class LeverAutomation:
                 else:
                     logging.warning(f"Application failed: {status}")
 
+                self.driver.delete_all_cookies()
+                self.driver.get("about:blank")
+                logging.info("Browser reset for next job application.")
+
             except KeyboardInterrupt:
                 logging.info("Application interrupted - saving state")
                 self.save_session_state(job_link)
+                self.driver.quit()
                 return
             except Exception as e:
                 logging.error(f"Unexpected error: {str(e)}")
