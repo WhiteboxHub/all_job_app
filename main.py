@@ -2653,19 +2653,35 @@ class AshbyAutomation:
         time.sleep(0.3)
         apply_style(original_style)
 
+    # def _find_submit_button(self):
+    #     try:
+    #         button = WebDriverWait(self.driver, 10).until(
+    #             EC.element_to_be_clickable((By.CSS_SELECTOR, "button._button_8wvgw_29._primary_8wvgw_96._greedy_8wvgw_218._submitButton_4fqrp_411.ashby-application-form-submit-button"))
+    #         )
+    #         if button.is_displayed():
+    #             logging.info("Found submit button with CSS selector")
+    #             self._highlight_element(button, "green")
+    #             return button
+    #     except Exception as e:
+    #         logging.error(f"Could not locate submit button with CSS selector: {str(e)}")
+    #         raise
     def _find_submit_button(self):
-        try:
-            button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "button._button_8wvgw_29._primary_8wvgw_96._greedy_8wvgw_218._submitButton_4fqrp_411.ashby-application-form-submit-button"))
-            )
-            if button.is_displayed():
-                logging.info("Found submit button with CSS selector")
-                self._highlight_element(button, "green")
-                return button
-        except Exception as e:
-            logging.error(f"Could not locate submit button with CSS selector: {str(e)}")
-            raise
+            submit_selectors = locators.get("submit_selectors", [])
 
+            for selector in submit_selectors:
+                try:
+                    button = WebDriverWait(self.driver, 3).until(
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, selector))
+                    )
+                    if button.is_displayed():
+                        logging.info(f"Found submit button using selector: {selector}")
+                        self._highlight_element(button, "green")
+                        return button
+                except Exception as e:
+                    logging.debug(f"Selector failed: {selector} - {str(e)}")
+
+            logging.error("Could not locate submit button using any known selectors")
+            return None
     def _click_submit_button(self, button, max_attempts=3):
         for attempt in range(max_attempts):
             try:
