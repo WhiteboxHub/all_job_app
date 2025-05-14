@@ -1157,7 +1157,7 @@ class JobviteAutomation:
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
 
-        candidate_name = config.get("first name", "Unknown Candidate")
+        candidate_name = config.get("first_name", "Unknown Candidate")
         logging.info(f"Candidate Name: {candidate_name}")
 
         resume_filename = config.get("resume_file", selected_config.replace('.yaml', '.txt'))
