@@ -2781,7 +2781,6 @@ class AshbyAutomation:
             logging.info(f"Log directory ensured: {os.path.abspath('logs')}")
 
             with open(log_filename, mode="a", newline="", encoding='utf-8') as file:
-                print("this is printing")
                 file.write(log_entry)
             logging.info(f"Log entry written to {log_filename}")
         except Exception as e:
