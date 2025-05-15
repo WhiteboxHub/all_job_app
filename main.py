@@ -2574,7 +2574,7 @@ class AshbyAutomation:
             while True:
                 missing_fields.clear()
 
-                # Standard fields with required attribute
+               
                 required_fields = self.driver.find_elements(By.XPATH, "//*[@required]")
                 for field in required_fields:
                     try:
@@ -2597,7 +2597,7 @@ class AshbyAutomation:
                         logging.warning(f"Error checking required field: {str(e)}")
                         continue
 
-                # Fields marked required by label class
+                
                 required_labels = self.driver.find_elements(By.XPATH, "//label[contains(@class, '_required_')]")
                 for label in required_labels:
                     try:
@@ -2605,7 +2605,7 @@ class AshbyAutomation:
                         if not for_attr:
                             continue
 
-                        # Check for group of radio buttons
+                       
                         radio_buttons = self.driver.find_elements(By.XPATH, f"//input[@type='radio' and contains(@id, '{for_attr}')]")
                         if radio_buttons:
                             if not any(rb.is_selected() for rb in radio_buttons):
@@ -2613,7 +2613,7 @@ class AshbyAutomation:
                                 logging.info(f"Required radio group not answered: {label.text.strip()}")
                             continue
 
-                        # Check for group of checkboxes
+                       
                         checkbox_buttons = self.driver.find_elements(By.XPATH, f"//input[@type='checkbox' and contains(@id, '{for_attr}')]")
                         if checkbox_buttons:
                             if not any(cb.is_selected() for cb in checkbox_buttons):
@@ -2653,35 +2653,29 @@ class AshbyAutomation:
         time.sleep(0.3)
         apply_style(original_style)
 
-    # def _find_submit_button(self):
-    #     try:
-    #         button = WebDriverWait(self.driver, 10).until(
-    #             EC.element_to_be_clickable((By.CSS_SELECTOR, "button._button_8wvgw_29._primary_8wvgw_96._greedy_8wvgw_218._submitButton_4fqrp_411.ashby-application-form-submit-button"))
-    #         )
-    #         if button.is_displayed():
-    #             logging.info("Found submit button with CSS selector")
-    #             self._highlight_element(button, "green")
-    #             return button
-    #     except Exception as e:
-    #         logging.error(f"Could not locate submit button with CSS selector: {str(e)}")
-    #         raise
     def _find_submit_button(self):
-            submit_selectors = locators.get("submit_selectors", [])
 
-            for selector in submit_selectors:
-                try:
-                    button = WebDriverWait(self.driver, 3).until(
-                        EC.element_to_be_clickable((By.CSS_SELECTOR, selector))
-                    )
-                    if button.is_displayed():
-                        logging.info(f"Found submit button using selector: {selector}")
-                        self._highlight_element(button, "green")
-                        return button
-                except Exception as e:
-                    logging.debug(f"Selector failed: {selector} - {str(e)}")
+        with open('locators/ashby_locators.json', 'r') as file:
+            locators = json.load(file)
+            
+        submit_selectors = locators.get("submit_selectors", [])
 
-            logging.error("Could not locate submit button using any known selectors")
-            return None
+        for selector in submit_selectors:
+            try:
+                button = WebDriverWait(self.driver, 3).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, selector))
+                )
+                if button.is_displayed():
+                    logging.info(f"Found submit button using selector: {selector}")
+                    self._highlight_element(button, "green")
+                    return button
+            except Exception as e:
+                logging.debug(f"Selector failed: {selector} - {str(e)}")
+
+        logging.error("Could not locate submit button using any known selectors")
+        return None
+
+
     def _click_submit_button(self, button, max_attempts=3):
         for attempt in range(max_attempts):
             try:
@@ -2740,42 +2734,41 @@ class AshbyAutomation:
 
             if not self._wait_for_required_fields_to_be_filled():
                 logging.error("Required fields not filled before submission")
-                self.log_application_status("Required Fields Not Filled")
+               
                 return False
 
             submit_button = self._find_submit_button()
             if not submit_button:
                 logging.error("Could not locate submit button")
-                self.log_application_status("Submit Button Not Found")
+               
                 return False
 
             if not self._click_submit_button(submit_button):
                 logging.error("Failed to click submit button")
-                self.log_application_status("Submit Click Failed")
+              
                 return False
 
             submission_verified = self._verify_submission()
 
             if submission_verified:
                 logging.info("Application submitted successfully!")
-                self.log_application_status("Success")
+                
                 return True
             else:
                 logging.warning("Submission confirmation not clearly detected")
-                self.log_application_status("Possible Success")
+                
                 return True
 
         except Exception as e:
             logging.error(f"Unexpected error during submission: {str(e)}")
-            self.log_application_status("Submission Error")
+           
             return False
 
     def log_application_status(self, status):
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         log_filename = f"logs/ashby_log_{current_date}.csv"
 
-        os.makedirs("logs", exist_ok=True)
-        logging.info(f"Log directory ensured: {os.path.abspath('logs')}")
+        
 
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -2784,54 +2777,17 @@ class AshbyAutomation:
         log_entry = f"[{timestamp}], {candidate_name}, {status}, {self.job_url}\n"
 
         try:
+            os.makedirs("logs", exist_ok=True)
+            logging.info(f"Log directory ensured: {os.path.abspath('logs')}")
+
             with open(log_filename, mode="a", newline="", encoding='utf-8') as file:
+                print("this is printing")
                 file.write(log_entry)
             logging.info(f"Log entry written to {log_filename}")
         except Exception as e:
             logging.error(f"Failed to write log entry: {str(e)}")
 
-    # def run(self, job_links_file="jobs/linkedin_jobs.csv"):
-    #     if not os.path.exists(job_links_file):
-    #         logging.error(f"CSV file '{job_links_file}' not found.")
-    #         return
-
-    #     job_links_df = pd.read_csv(job_links_file)
-    #     required_columns = ["company", "platform", "job_id", "platform_link"]
-
-    #     if not all(col in job_links_df.columns for col in required_columns):
-    #         logging.error("Missing required columns in CSV file.")
-    #         return
-
-    #     job_links = []
-    #     for row in job_links_df.itertuples(index=False):
-    #         if str(row.platform).lower() == "ashby":
-    #             job_links.append(f"{self.ashby_base_url}/{row.company}/{row.job_id}")
-
-    #     if not job_links:
-    #         logging.error("No Ashby job links found in the CSV file.")
-    #         return
-
-    #     for job_link in job_links:
-    #         logging.info(f"Processing job: {job_link}")
-
-    #         try:
-    #             self.open_job_page(job_link)
-    #             self.upload_resume()
-    #             self.fill_application_form()
-    #             self.submit_application()
-
-    #         except KeyboardInterrupt:
-    #             logging.info("Application interrupted - saving state")
-    #             self.driver.quit()
-    #             return
-    #         except Exception as e:
-    #             logging.error(f"Unexpected error: {str(e)}")
-    #             continue
-
-    #     self.driver.quit()
-    #     logging.info("Job application process completed!")
-
-
+   
     def run(self, job_links_file="jobs/linkedin_jobs.csv"):
         if not os.path.exists(job_links_file):
             logging.error(f"CSV file '{job_links_file}' not found.")
@@ -2854,7 +2810,7 @@ class AshbyAutomation:
             return
 
         for job_link in job_links:
-            self.job_url = job_link  # Set the job URL for logging
+            self.job_url = job_link  
             logging.info(f"Processing job: {job_link}")
 
             try:
@@ -2862,7 +2818,7 @@ class AshbyAutomation:
                 self.upload_resume()
                 self.fill_application_form()
 
-                # Log the status of the application process
+              
                 if self.submit_application():
                     self.log_application_status("Success")
                 else:
